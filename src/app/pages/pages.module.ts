@@ -8,19 +8,22 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from "@angular/forms";
 
 import { RouterModule } from '@angular/router';
+import { AccountSettingComponent } from './account-setting/account-setting.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     HomeComponent,
     ProgressComponent,
-    Grafica1Component
+    Grafica1Component,
+    AccountSettingComponent
   ],
   exports: [
     DashboardComponent,
     HomeComponent,
     ProgressComponent,
-    Grafica1Component
+    Grafica1Component,
+    AccountSettingComponent
   ],
   imports: [
     FormsModule,
