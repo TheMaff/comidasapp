@@ -10,21 +10,21 @@ import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { FoodDishesComponent } from './pages/food-dishes/food-dishes.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FoodDishesComponent,
-    
     NopagefoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     PagesModule,
-    AuthModule
+    AuthModule,
+    BrowserAnimationsModule
   ],
   bootstrap: [AppComponent]
 })
