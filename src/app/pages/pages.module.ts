@@ -12,7 +12,6 @@ import { AccountSettingComponent } from './account-setting/account-setting.compo
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
 import { FormsModule } from "@angular/forms";
-import { MatCardModule, MatCard } from '@angular/material/card';
 
 
 @NgModule({
@@ -35,7 +34,7 @@ import { MatCardModule, MatCard } from '@angular/material/card';
     CommonModule,
     SharedModule,
     RouterModule,
-    ComponentsModule, MatCardModule, MatCard
+    ComponentsModule
   ]
 })
 export class PagesModule { }
