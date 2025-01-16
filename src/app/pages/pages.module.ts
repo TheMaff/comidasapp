@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ProgressComponent } from './progress/progress.component';
+import { FoodDishesComponent } from './food-dishes/food-dishes.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
 import { AccountSettingComponent } from './account-setting/account-setting.component';
 
@@ -19,6 +20,7 @@ import { FormsModule } from "@angular/forms";
     DashboardComponent,
     HomeComponent,
     ProgressComponent,
+    FoodDishesComponent,
     Grafica1Component,
     AccountSettingComponent
   ],
@@ -26,6 +28,7 @@ import { FormsModule } from "@angular/forms";
     DashboardComponent,
     HomeComponent,
     ProgressComponent,
+    FoodDishesComponent,
     Grafica1Component,
     AccountSettingComponent
   ],

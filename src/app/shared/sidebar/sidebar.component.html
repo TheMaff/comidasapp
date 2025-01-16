@@ -1,17 +1,20 @@
-<hr>
-<p>sidebar works!</p>
 
-<ul>
+<div class="row">
     
-    <li *ngFor="let item of menuItems">
-        <i [ngClass]=item.icono></i> 
-        {{ item.titulo }}
+    <p>sidebar works!</p>
+    
+    <ul>
         
-        <ul>
-            <li *ngFor="let subitem of item.submenu">
-                <a [routerLink]="subitem.url"> {{ subitem.titulo }} </a>
-            </li>
-        </ul>
-
-    </li>
-</ul>
+        <li *ngFor="let item of menuItems">
+            <i [ngClass]=item.icono></i> 
+            {{ item.titulo }}
+            
+            <ul>
+                <li *ngFor="let subitem of item.submenu">
+                    <a [routerLink]="subitem.url"> {{ subitem.titulo }} </a>
+                </li>
+            </ul>
+            
+        </li>
+    </ul>
+</div>

@@ -1,6 +1,669 @@
-/* You can add global styles to this file, and also import other style files */
+/**********************************************
+ * Variables
+ **********************************************/
+$font-family-default: Roboto,
+"Helvetica Neue",
+sans-serif;
+$brand-color: #3b71ca;
+$transition-fast: 0.1s;
+$transition-normal: 0.2s;
+$linear-easing: linear;
+$body-bg: var(--mdb-body-bg);
+$border-color: var(#bdbdbd);
+$form-control-disabled-bg: var(#e0e0e0);
+$box-shadow-color-rgb: var(#000);
+$surface-color-rgb: var(79, 79, 79);
+
+/**********************************************
+ * Tailwind imports (si los usas)
+ **********************************************/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/**********************************************
+ * Estilos globales
+ **********************************************/
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-default;
+}
+
+/**********************************************
+ * .form-control
+ **********************************************/
+.form-control {
+  min-height: auto;
+  padding: 4.5px 12px 3.68px 12px;
+  transition: all $transition-fast $linear-easing;
+  box-shadow: none;
+
+  &:focus {
+    box-shadow: none;
+    transition: all $transition-fast $linear-easing;
+    border-color: $brand-color;
+    box-shadow: inset 0 0 0 1px $brand-color;
+  }
+
+  &.form-control-sm {
+    font-size: 0.775rem;
+    line-height: 1.5;
+  }
+
+  &.form-control-lg {
+    line-height: 2.15;
+    border-radius: 0.25rem;
+  }
+}
+
+/**********************************************
+ * .form-outline (sin referencias a .form-notch)
+ **********************************************/
+.form-outline {
+  position: relative;
+  width: 100%;
+
+  .form-helper {
+    width: 100%;
+    position: absolute;
+    font-size: 0.875em;
+    color: #757575;
+
+    .form-counter {
+      text-align: right;
+    }
+  }
+
+  .trailing {
+    position: absolute;
+    right: 10px;
+    left: auto;
+    /* Ajuste para claridad */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--mdb-surface-color);
+  }
+
+  .form-icon-trailing {
+    padding-right: 2rem !important;
+  }
+
+  // Eliminado todo lo relacionado con .form-notch
+  // Anidación de .form-control
+  .form-control {
+    min-height: auto;
+    padding-top: 0.32rem;
+    padding-bottom: 0.32rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    // border: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: all $transition-normal $linear-easing;
+
+
+    ~.form-label {
+      position: absolute;
+      top: 0;
+      max-width: 90%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      left: .75rem;
+      padding-top: .37rem;
+      pointer-events: none;
+      transform-origin: 0 0;
+      transition: all .2s ease-out;
+      color: var(--mdb-form-control-label-color);
+      margin-bottom: 0
+    }
+    // Placeholder
+    &:not(.placeholder-active)::placeholder {
+      opacity: 0;
+    }
+
+    &:focus::placeholder,
+    &.active::placeholder {
+      opacity: 1;
+    }
+
+    &:focus {
+      box-shadow: none !important;
+    }
+
+    // Label (hermano)
+    &:focus~.form-label,
+    &.active~.form-label {
+      transform: translateY(-0.8rem) translateY(0.1rem) scale(0.8);
+    }
+
+    &:focus~.form-label {
+      color: var(--mdb-input-focus-label-color);
+      background-color: #fff;
+      padding: 0 0.5rem;
+    }
+
+    // Disabled, readonly
+    &:disabled,
+    &.disabled,
+    &[readonly] {
+      background-color: $form-control-disabled-bg;
+    }
+
+    &:disabled~.timepicker-toggle-button,
+    &:disabled~.datepicker-toggle-button,
+    &:disabled~.datetimepicker-toggle-button,
+    &:disabled~.select-arrow,
+    &:disabled~.trailing,
+    &.disabled~.timepicker-toggle-button,
+    &.disabled~.datepicker-toggle-button,
+    &.disabled~.datetimepicker-toggle-button,
+    &.disabled~.select-arrow,
+    &.disabled~.trailing,
+    &[readonly]~.timepicker-toggle-button,
+    &[readonly]~.datepicker-toggle-button,
+    &[readonly]~.datetimepicker-toggle-button,
+    &[readonly]~.select-arrow,
+    &[readonly]~.trailing {
+      color: rgba($surface-color-rgb, 0.5);
+    }
+
+    &.form-control-lg {
+      font-size: 1rem;
+      line-height: 2.15;
+    }
+
+    &.form-control-lg~.form-label {
+      padding-top: 0.7rem;
+    }
+
+    &.form-control-lg:focus~.form-label,
+    &.form-control-lg.active~.form-label {
+      transform: translateY(-1.25rem) translateY(0.1rem) scale(0.8);
+    }
+
+    &.form-control-sm {
+      padding-top: 0.32rem;
+      padding-bottom: 0.32rem;
+      font-size: 0.775rem;
+      line-height: 1.5;
+    }
+
+    &.form-control-sm~.form-label {
+      padding-top: 0.33rem;
+      font-size: 0.775rem;
+    }
+
+    &.form-control-sm:focus~.form-label,
+    &.form-control-sm.active~.form-label {
+      transform: translateY(-0.85rem) translateY(0.1rem) scale(0.8);
+    }
+  }
+
+  // Variante form-white (sin .form-notch)
+  &.form-white {
+    .form-control {
+      color: #fff;
+
+      &~.form-label {
+        color: #fbfbfb;
+      }
+
+      &:focus~.form-label {
+        color: #fff;
+      }
+
+      &::placeholder {
+        color: hsla(0, 0%, 100%, 0.7);
+      }
+
+      &:disabled,
+      &.disabled,
+      &[readonly] {
+        background-color: hsla(0, 0%, 100%, 0.45);
+      }
+    }
+  }
+}
+
+/**********************************************
+ * .select-input (para form-control[readonly])
+ **********************************************/
+.select-input.form-control[readonly]:not([disabled]) {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/**********************************************
+ * .form-select
+ **********************************************/
+.form-select {
+  transition: all $transition-normal $linear-easing;
+
+  &:focus {
+    border-color: $brand-color;
+    outline: 0;
+    box-shadow: inset 0 0 0 1px $brand-color;
+  }
+}
+
+/**********************************************
+ * .form-check
+ **********************************************/
+.form-check {
+  min-height: 1.5rem;
+
+  .form-check-input {
+    position: relative;
+    width: 1.125rem;
+    height: 1.125rem;
+    background-color: $body-bg;
+    border: 0.125rem solid $border-color;
+
+    &:before {
+      content: "";
+      position: absolute;
+      box-shadow: 0 0 0 13px rgba(0, 0, 0, 0);
+      border-radius: 50%;
+      width: 0.875rem;
+      height: 0.875rem;
+      background-color: rgba(0, 0, 0, 0);
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0);
+      transition: box-shadow $transition-normal, transform $transition-normal;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      &:before {
+        opacity: 0.04;
+        box-shadow: 0 0 0 13px rgba($box-shadow-color-rgb, 0.6);
+      }
+    }
+
+    &:focus {
+      box-shadow: none;
+      border-color: $border-color;
+      transition: border-color $transition-normal;
+
+      &:before {
+        opacity: 0.12;
+        box-shadow: 0 0 0 13px rgba($box-shadow-color-rgb, 0.6);
+        transform: scale(1);
+      }
+    }
+
+    &:checked {
+      border-color: $brand-color;
+
+      &:before {
+        opacity: 0.16;
+      }
+
+      &:focus {
+        border-color: $brand-color;
+
+        &:before {
+          box-shadow: 0 0 0 13px $brand-color;
+          transform: scale(1);
+        }
+      }
+    }
+
+    &:indeterminate:focus:before {
+      box-shadow: 0 0 0 13px $brand-color;
+    }
+
+    &[type="checkbox"] {
+      border-radius: 0.25rem;
+      margin-top: 0.19em;
+      margin-right: 6px;
+
+      &:focus:after {
+        content: "";
+        position: absolute;
+        width: 0.875rem;
+        height: 0.875rem;
+        z-index: 1;
+        display: block;
+        border-radius: 0;
+        background-color: $body-bg;
+      }
+
+      &:checked {
+        background-image: none;
+        background-color: $brand-color;
+
+        &:after {
+          display: block;
+          transform: rotate(45deg);
+          border-width: 0.125rem;
+          border-color: #fff;
+          width: 0.375rem;
+          height: 0.8125rem;
+          border-style: solid;
+          border-top: 0;
+          border-left: 0;
+          margin-left: 0.25rem;
+          margin-top: -1px;
+          background-color: transparent;
+        }
+        &:after {
+          content: "";
+          position: absolute;
+        }
+
+        &:focus {
+          background-color: $brand-color;
+        }
+      }
+
+      &:indeterminate {
+        border-color: $brand-color;
+      }
+    }
+
+    &[type="radio"] {
+      border-radius: 50%;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-top: 0.125em;
+      margin-right: 4px;
+
+      &:before {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        z-index: 1;
+        display: block;
+        border-radius: 50%;
+        background-color: $body-bg;
+      }
+
+      &:checked {
+        background-image: none;
+        background-color: $body-bg;
+
+        &:after {
+          border-radius: 50%;
+          width: 0.625rem;
+          height: 0.625rem;
+          border-color: $brand-color;
+          background-color: $brand-color;
+          transform: translate(-50%, -50%);
+          left: 50%;
+          top: 50%;
+        }
+
+        &:focus {
+          background-color: $body-bg;
+        }
+      }
+    }
+  }
+
+  .form-check-label {
+    padding-left: 0.15rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+/**********************************************
+ * .form-switch
+ **********************************************/
+.form-switch {
+  .form-check-input {
+    background-image: none;
+    border-width: 0;
+    border-radius: 0.4375rem;
+    width: 2rem;
+    height: 0.875rem;
+    background-color: rgba(var(--mdb-emphasis-color-rgb), 0.25);
+    margin-top: 0.3em;
+    margin-right: 8px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      border: none;
+      z-index: 2;
+      border-radius: 50%;
+      width: 1.25rem;
+      height: 1.25rem;
+      background-color: var(--mdb-surface-bg);
+      margin-top: -0.1875rem;
+      box-shadow: 0 0px 3px 0 rgba($box-shadow-color-rgb, 0.07),
+        0 2px 2px 0 rgba($box-shadow-color-rgb, 0.04);
+      transition: background-color $transition-normal, transform $transition-normal;
+    }
+
+    &:focus {
+      background-image: none;
+
+      &:before {
+        box-shadow: 3px -1px 0 13px rgba($box-shadow-color-rgb, 0.6);
+        transform: scale(1);
+      }
+
+      &:after {
+        border-radius: 50%;
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+
+    &:checked {
+      background-image: none;
+
+      &:focus {
+        background-image: none;
+
+        &:before {
+          margin-left: 1.0625rem;
+          box-shadow: 3px -1px 0 13px $brand-color;
+          transform: scale(1);
+        }
+      }
+
+      &[type="checkbox"] {
+        background-image: none;
+
+        &:after {
+          content: "";
+          position: absolute;
+          border: none;
+          z-index: 2;
+          border-radius: 50%;
+          width: 1.25rem;
+          height: 1.25rem;
+          background-color: $brand-color;
+          margin-top: -3px;
+          margin-left: 1.0625rem;
+          box-shadow: 0 3px 1px -2px rgba($box-shadow-color-rgb, 0.2),
+            0 2px 2px 0 rgba($box-shadow-color-rgb, 0.14),
+            0 1px 5px 0 rgba($box-shadow-color-rgb, 0.12);
+          transition: background-color $transition-normal, transform $transition-normal;
+        }
+      }
+    }
+  }
+}
+
+/**********************************************
+ * .form-control[type="file"]
+ **********************************************/
+.form-control[type="file"] {
+  border-color: $border-color;
+
+  &::-webkit-file-upload-button {
+    background-color: transparent;
+  }
+
+  &:disabled {
+    background-color: $form-control-disabled-bg;
+    color: rgba($surface-color-rgb, 0.5);
+
+    &::file-selector-button {
+      color: rgba($surface-color-rgb, 0.5);
+    }
+  }
+
+  &:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
+    background-color: transparent;
+  }
+}
+
+/**********************************************
+ * .input-group
+ **********************************************/
+.input-group {
+  flex-wrap: nowrap;
+
+  >.form-control {
+    min-height: calc(2.08rem + 2px);
+    height: calc(2.08rem + 2px);
+    padding-top: 0.27rem;
+    padding-bottom: 0.27rem;
+    transition: all $transition-normal $linear-easing;
+
+    &:focus {
+      transition: all $transition-normal $linear-easing;
+      border-color: $brand-color;
+      outline: 0;
+      box-shadow: inset 0 0 0 1px $brand-color;
+    }
+  }
+
+  .input-group-text {
+    background-color: transparent;
+    padding-top: 0.26rem;
+    padding-bottom: 0.26rem;
+
+    >.form-check-input[type="checkbox"] {
+      margin-left: 1px;
+      margin-right: 1px;
+    }
+
+    >.form-check-input[type="radio"] {
+      margin-right: 0;
+    }
+  }
+
+  &.input-group-lg {
+    >.form-control {
+      height: calc(2.645rem + 2px);
+      font-size: 1rem;
+      padding-top: 0.33rem;
+      padding-bottom: 0.33rem;
+    }
+
+    .input-group-text {
+      font-size: 1rem;
+      height: calc(2.645rem + 2px);
+    }
+  }
+
+  &.input-group-sm {
+    >.form-control {
+      min-height: calc(1.66rem + 2px);
+      height: calc(1.66rem + 2px);
+      font-size: 0.775rem;
+      padding-top: 0.33rem;
+      padding-bottom: 0.33rem;
+    }
+
+    .input-group-text {
+      font-size: 0.775rem;
+      line-height: 1.5;
+      height: calc(1.66rem + 2px);
+    }
+  }
+
+  &.form-outline {
+    .input-group-text {
+      border-left: 0;
+    }
+
+    input+.input-group-text {
+      border: 0;
+      border-left: 1px solid #bdbdbd;
+    }
+  }
+
+  >[class*="btn-outline-"]+[class*="btn-outline-"] {
+    border-left: 0;
+  }
+
+  >.btn[class*="btn-outline-"] {
+    padding-top: 0.47rem;
+  }
+
+  >.btn {
+    padding-top: 0.59rem;
+    line-height: 1;
+  }
+
+  &.input-group-lg .input-group-text {
+    height: calc(2.645rem + 2px);
+  }
+
+  .input-group-text {
+    height: calc(2.08rem + 2px);
+  }
+
+  &.input-group-sm .input-group-text {
+    height: calc(1.66rem + 2px);
+  }
+}
+
+/**********************************************
+ * Estilos para :autofill
+ **********************************************/
+@keyframes onautofillstart {}
+
+@keyframes onautofillcancel {}
+
+input:-webkit-autofill,
+select:-webkit-autofill,
+textarea:-webkit-autofill {
+  animation-name: onautofillstart;
+  -webkit-background-clip: text;
+  box-shadow: inset 0 0 20px 20px $body-bg;
+  -webkit-box-shadow: 0 0 20px 20px $body-bg inset !important;
+}
+
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+  animation-name: onautofillstart;
+  -webkit-background-clip: text;
+  box-shadow: inset 0 0 20px 20px $body-bg;
+  -webkit-box-shadow: 0 0 20px 20px $body-bg inset !important;
+}
+
+input:not(:-webkit-autofill),
+select:not(:-webkit-autofill),
+textarea:not(:-webkit-autofill) {
+  animation-name: onautofillcancel;
+}

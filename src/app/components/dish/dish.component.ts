@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dish',
   templateUrl: './dish.component.html',
   styleUrls: ['./dish.component.scss']
 })
-export class DishComponent implements OnInit {
+export class DishComponent  {
 
-  constructor() { }
+  status: boolean = false;
+  clickClass() {
+    this.status = !this.status;
+  }
 
-  ngOnInit(): void {
+  clickButton() {
+
+    console.log("Button action");
+    
   }
 
 }
