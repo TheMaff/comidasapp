@@ -1,0 +1,138 @@
+<mat-sidenav-container class="shell-container">
+    <!-- Sidebar -->
+    <mat-sidenav #drawer class="shell-sidenav" mode="over" [opened]="true">
+
+        <div class="sidenav-hader brand d-flex align-items-center gap-2 px-3 py-3">
+
+            <mat-icon>restaurant</mat-icon>
+            <strong>ComidasApp</strong>
+            <!-- Botón cerrar -->
+            <button mat-icon-button aria-label="Cerrar menú" (click)="drawer.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <mat-divider></mat-divider>
+
+        <mat-nav-list>
+            <a mat-list-item *ngFor="let item of menu" [routerLink]="item.link" (click)="closeOnMobile()">
+                <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                <span matListItemTitle>{{item.label}}</span>
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <!-- Content -->
+    <mat-sidenav-content>
+        <!-- Toolbar -->
+        <mat-toolbar color="primary" class="px-2">
+            <button mat-icon-button class="d-lg-none me-2" (click)="drawer.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <span class="toolbar-title">Dashboard</span>
+            <span class="flex-grow-1"></span>
+
+            <button mat-icon-button [matMenuTriggerFor]="menuUser">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-menu #menuUser="matMenu">
+                <button mat-menu-item routerLink="/profile"><mat-icon>person</mat-icon> Perfil</button>
+                <button mat-menu-item routerLink="/login"><mat-icon>logout</mat-icon> Salir</button>
+            </mat-menu>
+        </mat-toolbar>
+
+        <!-- Grid Bootstrap + Cards Material -->
+        <div class="container my-3">
+            <div class="row g-3">
+                <div class="col-12 col-md-6 col-xl-3">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>Plan actual</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>Días planificados: 12 / 30</mat-card-content>
+                    </mat-card>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-3">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>Presupuesto</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>$ 42.500 estimado</mat-card-content>
+                    </mat-card>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>Calendario (resumen)</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <!-- aquí luego va el componente calendario -->
+                            <div class="placeholder">Calendario</div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>Recetas destacadas</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <mat-card appearance="outlined"><mat-card-content>Porotos
+                                            granados</mat-card-content></mat-card>
+                                </div>
+                                <div class="col-6">
+                                    <mat-card
+                                        appearance="outlined"><mat-card-content>Charquicán</mat-card-content></mat-card>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+
+            <!-- Router outlet para vistas hijas -->
+            <div class="row mt-3">
+                <div class="col-12">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+
+        <footer class="container-fluid">
+            <hr>
+            <div class="row ">
+                <div class="d-flex align-items-center justify-content-end">
+                    <p>
+                        <small>
+                            comidas app all right reserved
+                        </small>
+                    </p>
+                    <figure class="d-block m-2">
+                        <svg viewBox="0 0 36 36" fill="none" role="img" xmlns="http://www.w3.org/2000/svg" width="80"
+                            height="80">
+                            <title>Abigail Adams</title>
+                            <mask id="mask__beam" maskUnits="userSpaceOnUse" x="0" y="0" width="36" height="36">
+                                <rect width="36" height="36" rx="72" fill="#FFFFFF"></rect>
+                            </mask>
+                            <g mask="url(#mask__beam)">
+                                <rect width="36" height="36" fill="#028f76"></rect>
+                                <rect x="0" y="0" width="36" height="36" transform="translate(7 7) rotate(273 18 18) scale(1)"
+                                    fill="#ffeaad" rx="6"></rect>
+                                <g transform="translate(3.5 3.5) rotate(-3 18 18)">
+                                    <path d="M13,19 a1,0.75 0 0,0 10,0" fill="#000000"></path>
+                                    <rect x="11" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#000000"></rect>
+                                    <rect x="23" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#000000"></rect>
+                                </g>
+                            </g>
+                        </svg>
+                    </figure>
+                </div>
+            </div>
+        </footer>
+    </mat-sidenav-content>
+</mat-sidenav-container>
