@@ -7,6 +7,10 @@
     }
 }
 
+.sidenav-header {
+  min-height: 56px;
+}
+
 .toolbar-title {
   font-weight: 600;
 }
@@ -24,4 +28,15 @@
   .shell-sidenav {
     width: 240px;
   }
+}
+
+/* Evita recortes de labels de Material en layouts estrechos */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper,
+.mat-mdc-form-field-flex,
+.mat-mdc-form-field-infix {
+  overflow: visible;
 }
