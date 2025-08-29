@@ -29,6 +29,15 @@
     
             <span>Qué hay para hoy?</span>
         </div>
+
+        <div *ngIf="auth.user$ | async as user; else guest">
+            <img [src]="user.photoURL" width="28" height="28">
+            <span>{{ user.displayName || user.email }}</span>
+            <button mat-button (click)="logout()">Salir</button>
+        </div>
+        <ng-template #guest>
+            <a routerLink="/login">Iniciar sesión</a>
+        </ng-template>
     
         <!-- <div *ngIf="usuarioLogueado" class="user-info">
             <img src="ruta-del-logo" alt="Logo de la aplicación" />

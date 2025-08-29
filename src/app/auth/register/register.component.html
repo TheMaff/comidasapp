@@ -5,66 +5,46 @@
                 <div class="card shadow-2-strong" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-center">
 
-                        <h3 class="mb-5">Register</h3>
-                        <!-- <form (submit)="login()" method="post"> -->
-                        <form method="post">
-                            <!-- Name input -->
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="text" id="registerName" class="form-control" />
-                                <label class="form-label" for="registerName">Name</label>
-                            </div>
-                            
-                            <!-- Username input -->
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="text" id="registerUsername" class="form-control" />
-                                <label class="form-label" for="registerUsername">Username</label>
-                            </div>
-                            
-                            <!-- Email input -->
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="email" id="registerEmail" class="form-control" />
-                                <label class="form-label" for="registerEmail">Email</label>
-                            </div>
-                            
-                            <!-- Password input -->
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="registerPassword" class="form-control" />
-                                <label class="form-label" for="registerPassword">Password</label>
-                            </div>
-                            
-                            <!-- Repeat Password input -->
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="registerRepeatPassword" class="form-control" />
-                                <label class="form-label" for="registerRepeatPassword">Repeat password</label>
-                            </div>
-                            
-                            <!-- Checkbox -->
-                            <div class="form-check d-flex justify-content-center mb-4">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
-                                    aria-describedby="registerCheckHelpText" />
-                                <label class="form-check-label" for="registerCheck">
-                                    I have read and agree to the terms
-                                </label>
-                            </div>
-
-                            <div class="d-grid gap-2">
-                                <!-- Submit button -->
-                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-3">Sign in</button>
-                            </div>
-                        </form>
-
-                        <hr class="my-4">
-                        <div class="d-grid gap-2">
+                        
 
 
-                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-danger"
-                                type="submit"><i class="bi bi-google"></i> Sign in
-                                with google</button>
-                            <button data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-lg btn-block btn-primary mb-2" type="submit"><i
-                                    class="fab fa-facebook-f me-2"></i>Sign
-                                in with facebook</button>
-                        </div>
+                            <h3>Crear cuenta</h3>
+                            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput formControlName="name">
+                                </mat-form-field>
+                            
+                        
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput type="email" formControlName="email">
+                                </mat-form-field>
+                        
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Contraseña</mat-label>
+                                    <input matInput type="password" formControlName="password">
+                                </mat-form-field>
+                        
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Confirmar contraseña</mat-label>
+                                    <input matInput type="password" formControlName="confirm">
+                                </mat-form-field>
+                        
+                                <mat-checkbox formControlName="remember">Mantener sesión iniciada</mat-checkbox>
+                                <mat-checkbox formControlName="terms">Acepto los términos y condiciones</mat-checkbox>
+                        
+                                <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
+                                    Crear cuenta
+                                </button>
+                                
+                                <hr class="my-4">
+                        
+                                <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+                            </form>
+
+
 
                     </div>
                 </div>

@@ -1,0 +1,11 @@
+/* profile-form.component.scss */
+.actions-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: .5rem;
+  padding: .5rem;
+  background: var(--mat-sys-surface, #fff);
+  border-top: 1px solid rgba(0, 0, 0, .08);
+  z-index: 2;
+}

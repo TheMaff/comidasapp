@@ -6,7 +6,9 @@
                     <div class="card-body p-5 text-center">
 
                         <h3 class="mb-5">Sign in</h3>
-                        <form (submit)="login()" method="post">
+                        
+                        <!-- <form [formGroup]="form" (ngSubmit)="onSubmitEmail()"> -->
+                        <form (ngSubmit)="onSubmitEmail()">
 
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
@@ -24,17 +26,25 @@
                                 <label class="form-check-label" for="form1Example3"> Remember password </label>
                             </div>
                             <div class="d-grid gap-2">
-                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block"
-                                type="submit">Login</button>
+                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" [disabled]="loading || form.invalid">
+                                    Login
+                                </button>
                             </div>
+                            <p>
+                                <a (click)="onForgotPassword()">¿Olvidaste tu contraseña?</a>
+                            </p>
+                            
+                            <p>
+                                ¿No tienes cuenta?
+                                <a routerLink="/register">Crear cuenta</a>
+                            </p>
                         </form>
 
                         <hr class="my-4">
                         <div class="d-grid gap-2">
-
-                            
-                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-danger" type="submit"><i class="bi bi-google"></i> Sign in
-                            with google</button>
+                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-danger btn-google" (click)="loginWithGoogle()" [disabled]="loading">
+                                <i class="bi bi-google"></i> Sign in with google
+                            </button>
                             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary mb-2" type="submit"><i class="fab fa-facebook-f me-2"></i>Sign
                             in with facebook</button>
                         </div>

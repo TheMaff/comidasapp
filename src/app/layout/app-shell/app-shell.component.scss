@@ -1,0 +1,42 @@
+.shell {
+    &-container {
+        height: 100vh;
+    }
+    &-sidenav {
+        width: 260px;
+    }
+}
+
+.sidenav-header {
+  min-height: 56px;
+}
+
+.toolbar-title {
+  font-weight: 600;
+}
+
+.placeholder {
+  height: 200px;
+  border: 1px dashed rgba(0, 0, 0, .2);
+  display: grid;
+  place-items: center;
+  color: rgba(0, 0, 0, .5);
+}
+
+/* Responsivo: sidebar colapsa bajo lg */
+@media (max-width: 991.98px) {
+  .shell-sidenav {
+    width: 240px;
+  }
+}
+
+/* Evita recortes de labels de Material en layouts estrechos */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper,
+.mat-mdc-form-field-flex,
+.mat-mdc-form-field-infix {
+  overflow: visible;
+}

@@ -1,0 +1,52 @@
+<!-- src/app/layout/app-shell/app-shell.component.html -->
+<mat-sidenav-container class="shell-container">
+    <mat-sidenav #drawer class="shell-sidenav" [mode]="(isDesktop$ | async) ? 'side' : 'over'"
+        [opened]="(isDesktop$ | async) ? true : false" [disableClose]="false" (backdropClick)="closeMenu()">
+
+        <div class="sidenav-header d-flex align-items-center justify-content-between px-3 py-2">
+            <div class="d-flex align-items-center gap-2">
+                <mat-icon>restaurant</mat-icon>
+                <strong>ComidasApp</strong>
+            </div>
+            <button mat-icon-button aria-label="Cerrar menú" class="d-lg-none" (click)="closeMenu()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- OJO: aquí ya no usamos pipes en acciones -->
+        <mat-nav-list (click)="onNavListClick()">
+            <a mat-list-item *ngFor="let item of menu" [routerLink]="item.link">
+                <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                <span matListItemTitle>{{item.label}}</span>
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" class="px-2">
+            <button mat-icon-button aria-label="Abrir menú" class="me-2" (click)="toggleMenu()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <span class="toolbar-title">Dashboard</span>
+            <span class="flex-grow-1"></span>
+
+            <button mat-icon-button [matMenuTriggerFor]="menuUser">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-menu #menuUser="matMenu">
+                <button mat-menu-item routerLink="/profile"><mat-icon>person</mat-icon> Perfil</button>
+                <button mat-menu-item routerLink="/login"><mat-icon>logout</mat-icon> Salir</button>
+            </mat-menu>
+        </mat-toolbar>
+
+        <!-- ////////// -->
+
+        <!-- <div class="container my-3"> </div> -->
+         
+        <router-outlet></router-outlet>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>
