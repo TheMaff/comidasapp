@@ -34,6 +34,8 @@ export class AppShellComponent {
     { icon: 'list', label: 'Recetas', link: '/recipes' },
     { icon: 'shopping_cart', label: 'Lista de compras', link: '/shopping' },
     { icon: 'person', label: 'Perfil', link: '/profile' },
+    { icon: 'event', label: 'Planificador', link: '/planner' },
+    
   ];
 
   ngAfterViewInit() {

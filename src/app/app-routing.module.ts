@@ -20,8 +20,10 @@ const routes: Routes = [
       { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'profile', loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule) },
       { path: 'recipes', loadChildren: () => import('./features/recipes/recipes.module').then(m => m.RecipesModule) },
+      { path: 'planner', loadChildren: () => import('./features/planner/planner.module').then(m => m.PlannerModule) },
     ]
   },
+  
 
   //404
   { path: '**', component: NopagefoundComponent },
