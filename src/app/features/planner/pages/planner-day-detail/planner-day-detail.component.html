@@ -1,15 +1,11 @@
-<div class="container my-3">
-
-    <mat-card>
-        <mat-card-header class="mb-4">
-            <mat-card-title-group>
-                <mat-card-title>Detalle del día</mat-card-title>
-            </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-            <!-- <p>Fecha: {{ (route.snapshot.paramMap.get('date') || '') }}</p> -->
-            <p>Fecha: {{ dateISO }}</p>
-            <p>Aquí mostraremos la receta asignada y permitiremos cambiarla.</p>
-        </mat-card-content>
-    </mat-card>
-</div>
+<mat-card>
+    <mat-card-header class="mb-4">
+        <mat-card-title-group>
+            <mat-card-title>Detalle del día</mat-card-title>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <p>Fecha: {{ dateISO }}</p>
+        <p>Aquí mostraremos la receta asignada y permitiremos cambiarla.</p>
+    </mat-card-content>
+</mat-card>
