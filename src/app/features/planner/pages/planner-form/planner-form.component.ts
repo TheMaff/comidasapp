@@ -36,9 +36,10 @@ export class PlannerFormComponent {
     const endStr = endISO.toISOString().slice(0, 10);
 
     const uid = (await firstValueFrom(this.auth.user$))!.uid;
-    await this.propose.execute(uid, startISO, endStr);
+    
+    console.log('{startDate:', startISO, ', days:', days, '}');
 
-    console.log(startISO, days);
+    await this.propose.execute(uid, startISO, endStr);
     this.router.navigate(['/planner/calendar'], { queryParams: { start: startISO, days } });
   }
 

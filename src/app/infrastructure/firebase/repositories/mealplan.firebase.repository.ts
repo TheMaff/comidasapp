@@ -24,6 +24,7 @@ export class MealPlanFirebaseRepository implements MealPlanRepository {
   }
 
   async save(plan: MealPlan): Promise<void> {
+    console.log('saving plan:', plan);
     const ref = plan.id
       ? doc(this.fs, `${this.col}/${plan.id}`)
       : doc(collection(this.fs, this.col));

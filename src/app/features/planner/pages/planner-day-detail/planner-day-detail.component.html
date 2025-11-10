@@ -4,8 +4,31 @@
             <mat-card-title>Detalle del día</mat-card-title>
         </mat-card-title-group>
     </mat-card-header>
-    <mat-card-content>
-        <p>Fecha: {{ dateISO }}</p>
+    
+    <!-- <mat-card-content>
+        <p>Fecha: {{ addDaysISO }}</p>
         <p>Aquí mostraremos la receta asignada y permitiremos cambiarla.</p>
+    </mat-card-content> -->
+
+    <mat-card-content>
+        <p class="mb-2"><strong>Fecha:</strong> {{ date }}</p>
+    
+        <ng-container *ngIf="!loading; else loadingTpl">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Receta</mat-label>
+                <mat-select [(value)]="selectedRecipeId">
+                    <mat-option *ngFor="let r of recipes" [value]="r.id">{{ r.name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+            <div class="mt-2 d-flex gap-2">
+                <button mat-raised-button color="primary" (click)="save()" [disabled]="saving || !selectedRecipeId">
+                    Guardar
+                </button>
+                <a mat-button [routerLink]="['/planner/calendar']" [queryParams]="{ start: start, days: days }">Cancelar</a>
+            </div>
+        </ng-container>
+    
+        <ng-template #loadingTpl>Cargando…</ng-template>
     </mat-card-content>
 </mat-card>
