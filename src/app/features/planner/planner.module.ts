@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule
   ]
 })
 export class PlannerModule { }

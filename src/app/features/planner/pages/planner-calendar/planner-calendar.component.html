@@ -6,10 +6,30 @@
     </mat-card-header>
 
     <mat-card-content>
-        <div class="d-flex flex-wrap gap-2">
+        <ng-container *ngIf="!loading; else skeleton">
+            <div class="d-flex flex-wrap gap-2">
+                <button mat-stroked-button *ngFor="let d of dates" (click)="openDay(d)">
+                    <div class="d-flex flex-column" style="text-align:left">
+                        <span class="badge rounded-pill bg-danger"> {{ d }} </span>
+                        <h4 class="fw-600">
+                            {{ getRecipeName(d) }}
+                        </h4> 
+                    </div>
+                </button>
+            </div>
+            <p class="mt-2" *ngIf="!plan">No hay plan guardado para este rango.</p>
+        </ng-container>
+
+        <ng-template #skeleton>
+            Cargando…
+        </ng-template>
+        
+        <!-- //// -->
+        
+        <!-- <div class="d-flex flex-wrap gap-2">
             <button mat-stroked-button *ngFor="let d of dates" (click)="openDay(d)">
                 {{ d }}
             </button>
-        </div>
+        </div> -->
     </mat-card-content>
 </mat-card>
