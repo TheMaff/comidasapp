@@ -2,8 +2,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { passwordsMatchValidator } from 'src/app/shared/validators/password-match.validator';
+
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { ErrorHandlerService } from 'src/app/core/error-handling/error-handler.service';
 import { group } from '@angular/animations';
 
 @Component({
@@ -28,6 +31,7 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private auth: AuthService,
     private users: UserService,
+    private errorHandler: ErrorHandlerService,
     private router: Router
   ) { }
 
@@ -39,14 +43,11 @@ export class RegisterComponent {
       const cred = await this.auth.registerWithEmail(name!, email!, password!);
       await this.users.ensureProfile(cred.user);
       this.router.navigateByUrl('/dashboard');
+    } catch (error: any) {
+      this.errorHandler.handleFirebaseAuthError(error);
+      console.error(error);
     } finally {
       this.loading = false;
     }
   }
-}
-
-function passwordsMatchValidator(group: any){
-  const p = group.get('password')?.value;
-  const c = group.get('confirm')?.value;
-  return p === c ? null : { mismatch: true }
 }
