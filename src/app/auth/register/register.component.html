@@ -27,6 +27,9 @@
                                 <mat-form-field appearance="fill" class="w-100">
                                     <mat-label>Confirmar contraseña</mat-label>
                                     <input matInput type="password" formControlName="confirm">
+                                    <mat-error *ngIf="form.get('confirm')?.hasError('passwordMismatch')">
+                                        Las contraseñas no coinciden.
+                                    </mat-error>
                                 </mat-form-field>
                         
                                 <mat-checkbox formControlName="remember">Mantener sesión iniciada</mat-checkbox>
@@ -41,9 +44,7 @@
                                 <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
                             </form>
 
-                            <mat-error *ngIf="form.get('confirmPasswordControl')?.hasError('passwordMismatch')">
-                                Las contraseñas no coinciden.
-                            </mat-error>
+                            
 
                     </div>
                 </div>
