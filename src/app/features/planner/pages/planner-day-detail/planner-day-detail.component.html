@@ -16,13 +16,13 @@
         <ng-container *ngIf="!loading; else loadingTpl">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Receta</mat-label>
-                <mat-select [(value)]="selectedRecipeId">
-                    <mat-option *ngFor="let r of recipes" [value]="r.id">{{ r.name }}</mat-option>
+                <mat-select [(value)]="selectedDishId">
+                    <mat-option *ngFor="let d of dishes" [value]="d.id">{{ d.name }}</mat-option>
                 </mat-select>
             </mat-form-field>
     
             <div class="mt-2 d-flex gap-2">
-                <button mat-raised-button color="primary" (click)="save()" [disabled]="saving || !selectedRecipeId">
+                <button mat-raised-button color="primary" (click)="save()" [disabled]="saving || !selectedDishId">
                     Guardar
                 </button>
                 <a mat-button [routerLink]="['/planner/calendar']" [queryParams]="{ start: start, days: days }">Cancelar</a>

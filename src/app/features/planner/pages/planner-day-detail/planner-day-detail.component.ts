@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-by-range.usecase';
 import { SaveMealPlan } from 'src/app/application/services/save-meal-plan.usecase';
-import { RECIPE_REPOSITORY } from 'src/app/core/tokens';
+import { DISH_REPOSITORY } from 'src/app/core/tokens';
 import { MealPlan } from 'src/app/domain/entities/meal-plan';
 import { Dish } from 'src/app/domain/entities/dish';
 import { DishRepository } from 'src/app/domain/repositories/dish.repository';
@@ -21,14 +21,14 @@ export class PlannerDayDetailComponent implements OnInit {
   days!: number;
 
   plan: MealPlan | null = null;
-  recipes: Dish[] = [];
-  selectedRecipeId: string | null = null;
+  dishes: Dish[] = [];
+  selectedDishId: string | null = null;
 
   loading = true;
   saving = false;
 
   private auth = inject(AuthService);
-  private recipeRepo = inject(RECIPE_REPOSITORY) as DishRepository;
+  private dishesRepo = inject(DISH_REPOSITORY) as DishRepository;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,25 +51,25 @@ export class PlannerDayDetailComponent implements OnInit {
       this.plan = await this.getPlan.execute(uid, this.start, end);
 
       // cargar recetas del usuario para el selector
-      this.recipes = await this.recipeRepo.listByUser(uid);
+      this.dishes = await this.dishesRepo.listByUser(uid);
 
       // receta actual del día (si existe)
       const asg = this.plan?.assignments.find(a => a.date === this.date);
-      this.selectedRecipeId = asg?.recipeId ?? null;
+      this.selectedDishId = asg?.dishId ?? null;
     } finally {
       this.loading = false;
     }
   }
 
   async save() {
-    if (!this.plan || !this.selectedRecipeId) return;
+    if (!this.plan || !this.selectedDishId) return;
     this.saving = true;
     try {
       const idx = this.plan.assignments.findIndex(a => a.date === this.date);
       if (idx >= 0) {
-        this.plan.assignments[idx] = { ...this.plan.assignments[idx], recipeId: this.selectedRecipeId };
+        this.plan.assignments[idx] = { ...this.plan.assignments[idx], dishId: this.selectedDishId };
       } else {
-        this.plan.assignments.push({ date: this.date, recipeId: this.selectedRecipeId });
+        this.plan.assignments.push({ date: this.date, dishId: this.selectedDishId });
       }
       this.plan.updatedAt = new Date().toISOString();
       await this.savePlan.execute(this.plan);

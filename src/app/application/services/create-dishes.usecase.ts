@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { RECIPE_REPOSITORY } from '../../core/tokens';
+import { DISH_REPOSITORY } from '../../core/tokens';
 import { DishRepository } from '../../domain/repositories/dish.repository';
 import { CreateDishDTO } from '../../domain/dtos/create-dish.dto';
 
 @Injectable({ providedIn: 'root' })
 export class CreateDish {
-    private repo = inject<DishRepository>(RECIPE_REPOSITORY);
+    private repo = inject<DishRepository>(DISH_REPOSITORY);
     
     async execute(dishData: CreateDishDTO) {
         // aquí puedes validar reglas de negocio (DDD)

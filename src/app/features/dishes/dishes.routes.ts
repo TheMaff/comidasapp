@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RecipesListComponent } from './pages/recipes-list/recipes-list.component';
-import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.component';
+import { DishesListComponent } from './pages/dishes-list/dishes-list.component';
+import { DishCreateComponent } from './pages/dishes-create/dishes-create.component';
 
 const routes: Routes = [
-  { path: '', component: RecipesListComponent },
-  { path: 'new', component: RecipeCreateComponent },
+  { path: '', component: DishesListComponent },
+  { path: 'new', component: DishCreateComponent },
   
   {
     path: ':dishId',
-    component: RecipeCreateComponent
+    component: DishCreateComponent
   }
 ];
 

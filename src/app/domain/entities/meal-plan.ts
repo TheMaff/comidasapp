@@ -10,6 +10,6 @@ export interface MealPlan {
 
 export interface MealAssignment {
     date: string;                  // ISO yyyy-mm-dd
-    recipeId: string;              // receta asignada
+    dishId: string;              // receta asignada
     forMembers?: string[];         // opcional: ids si se personaliza
 }
