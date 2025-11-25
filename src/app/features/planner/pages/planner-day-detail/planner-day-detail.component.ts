@@ -5,8 +5,8 @@ import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-b
 import { SaveMealPlan } from 'src/app/application/services/save-meal-plan.usecase';
 import { RECIPE_REPOSITORY } from 'src/app/core/tokens';
 import { MealPlan } from 'src/app/domain/entities/meal-plan';
-import { Recipe } from 'src/app/domain/entities/dish';
-import { RecipeRepository } from 'src/app/domain/repositories/recipe.repository';
+import { Dish } from 'src/app/domain/entities/dish';
+import { DishRepository } from 'src/app/domain/repositories/dish.repository';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -21,14 +21,14 @@ export class PlannerDayDetailComponent implements OnInit {
   days!: number;
 
   plan: MealPlan | null = null;
-  recipes: Recipe[] = [];
+  recipes: Dish[] = [];
   selectedRecipeId: string | null = null;
 
   loading = true;
   saving = false;
 
   private auth = inject(AuthService);
-  private recipeRepo = inject(RECIPE_REPOSITORY) as RecipeRepository;
+  private recipeRepo = inject(RECIPE_REPOSITORY) as DishRepository;
 
   constructor(
     private route: ActivatedRoute,

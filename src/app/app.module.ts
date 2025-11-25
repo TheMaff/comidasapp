@@ -20,7 +20,7 @@ import { environment } from '../environments/environment';
 import { LayoutModule } from './layout/layout.module';
 
 import { MEAL_PLAN_REPOSITORY, PLANNER_SERVICE, RECIPE_REPOSITORY, USER_REPOSITORY } from './core/tokens';
-import { RecipeFirebaseRepository } from './infrastructure/firebase/repositories/recipe.firebase.repository';
+import { DishFirebaseRepository } from './infrastructure/firebase/repositories/dish.firebase.repository';
 import { UserFirebaseRepository } from './infrastructure/firebase/repositories/user.firebase.repository';
 import { SharedModule } from './shared/shared.module';
 import { MealPlanFirebaseRepository } from './infrastructure/firebase/repositories/mealplan.firebase.repository';
@@ -50,7 +50,7 @@ import { SimpleHeuristicPlannerService } from './application/services/simple-heu
   ],
   bootstrap: [AppComponent],
   providers: [
-    { provide: RECIPE_REPOSITORY, useClass: RecipeFirebaseRepository },
+    { provide: RECIPE_REPOSITORY, useClass: DishFirebaseRepository },
     { provide: USER_REPOSITORY, useClass: UserFirebaseRepository },
     { provide: MEAL_PLAN_REPOSITORY, useClass: MealPlanFirebaseRepository },
     { provide: PLANNER_SERVICE, useClass: SimpleHeuristicPlannerService },
