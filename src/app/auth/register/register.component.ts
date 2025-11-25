@@ -25,7 +25,7 @@ export class RegisterComponent {
     confirm: ['', [Validators.required]],
     remember: [true],
     terms: [false, [Validators.requiredTrue]]
-  }, { validators: [passwordsMatchValidator] });
+  }, { validators: [passwordsMatchValidator('password', 'confirm')] });
 
   constructor(
     private fb: FormBuilder,
