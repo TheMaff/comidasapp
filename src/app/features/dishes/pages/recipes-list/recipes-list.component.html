@@ -4,7 +4,7 @@
         <a mat-raised-button color="primary" routerLink="new">Nueva receta</a>
     </div>
 
-    <table mat-table [dataSource]="data" class="w-100" *ngIf="!loading; else loadingTpl">
+    <table mat-table [dataSource]="data()" class="w-100" *ngIf="!loading(); else loadingTpl">
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Nombre</th>
             <td mat-cell *matCellDef="let r">{{ r.name }}</td>

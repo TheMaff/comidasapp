@@ -40,16 +40,15 @@ import { SimpleHeuristicPlannerService } from './application/services/simple-heu
     SharedModule,
     BrowserAnimationsModule,
     MaterialModule,
-
+    AuthModule,
+  ],
+  bootstrap: [AppComponent],
+  providers: [
     // FirebaseModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
 
-    AuthModule,
-  ],
-  bootstrap: [AppComponent],
-  providers: [
     { provide: RECIPE_REPOSITORY, useClass: DishFirebaseRepository },
     { provide: USER_REPOSITORY, useClass: UserFirebaseRepository },
     { provide: MEAL_PLAN_REPOSITORY, useClass: MealPlanFirebaseRepository },
