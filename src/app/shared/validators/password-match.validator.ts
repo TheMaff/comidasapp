@@ -1,30 +1,42 @@
-// src/app/shared/validators/password-match.validator.ts
+// shared/validators/password-match.validator.ts
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-/**
- * Validador que verifica si dos campos específicos de un FormGroup coinciden.
- * Implementa el patrón de Validador Puro (solo retorna el error, no muta controles).
- */
 export function passwordsMatchValidator(
     passwordControlName: string,
-    confirmPasswordControlName: string
+    confirmControlName: string
 ): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
         const passwordControl = group.get(passwordControlName);
-        const confirmPasswordControl = group.get(confirmPasswordControlName);
+        const confirmControl = group.get(confirmControlName);
 
-        // Si los controles no existen o la confirmación no tiene valor, no validamos.
-        if (!passwordControl || !confirmPasswordControl || !confirmPasswordControl.value) {
+        if (!passwordControl || !confirmControl) return null;
+
+        const password = passwordControl.value;
+        const confirm = confirmControl.value;
+
+        // dejamos que el required se encargue si está vacío
+        if (!confirm) return null;
+
+        // ya tiene otros errores (distintos de passwordMismatch) → no los pisamos
+        if (confirmControl.errors && !confirmControl.errors['passwordMismatch']) {
             return null;
         }
 
-        // Si no coinciden los valores
-        if (passwordControl.value !== confirmPasswordControl.value) {
-            // RETORNA el error en el grupo. NO uses setErrors() aquí.
-            return { passwordsMismatch: true };
+        if (password !== confirm) {
+            confirmControl.setErrors({
+                ...(confirmControl.errors || {}),
+                passwordMismatch: true
+            });
+            return { passwordMismatch: true };
+        } else {
+            // limpiamos solo la key passwordMismatch
+            if (confirmControl.errors) {
+                delete confirmControl.errors['passwordMismatch'];
+                if (!Object.keys(confirmControl.errors).length) {
+                    confirmControl.setErrors(null);
+                }
+            }
+            return null;
         }
-
-        // Si todo coincide
-        return null;
     };
 }
