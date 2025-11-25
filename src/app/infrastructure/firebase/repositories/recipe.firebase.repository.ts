@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Firestore, doc, getDoc, collection, query, where, getDocs, setDoc, deleteDoc } from '@angular/fire/firestore';
 import { RecipeRepository } from '../../../domain/repositories/recipe.repository';
-import { Recipe } from '../../../domain/entities/recipe';
+import { Recipe } from '../../../domain/entities/dish';
 
 export class RecipeFirebaseRepository implements RecipeRepository {
     private fs = inject(Firestore);

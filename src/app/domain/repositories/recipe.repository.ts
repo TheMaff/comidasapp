@@ -1,9 +1,10 @@
-import { Recipe } from '../entities/recipe';
+import { Recipe } from '../entities/dish';
+import { CreateDishDTO } from '../dtos/create-dish.dto';
 
 export interface RecipeRepository {
     getById(id: string): Promise<Recipe | null>;
     listByUser(userId: string): Promise<Recipe[]>;
-    create(recipe: Recipe): Promise<void>;
+    create(dishData: CreateDishDTO): Promise<void>;
     update(recipe: Recipe): Promise<void>;
     delete(id: string): Promise<void>;
 }
