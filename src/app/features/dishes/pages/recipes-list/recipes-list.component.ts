@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListUserRecipes } from '../../../../application/services/list-user-recipes.usecase';
 import { AuthService } from '../../../../services/auth.service';
-import { Recipe } from '../../../../domain/entities/dish';
+import { Dish } from '../../../../domain/entities/dish';
 import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -21,7 +21,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class RecipesListComponent implements OnInit {
   displayedColumns = ['name', 'servings', 'actions'];
-  data: Recipe[] = [];
+  data: Dish[] = [];
   loading = true;
 
   constructor(private listRecipes: ListUserRecipes, private auth: AuthService) { }

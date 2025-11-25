@@ -57,6 +57,6 @@ export class RecipeCreateComponent {
       ingredients: this.form.value.ingredients as any,
       steps: this.form.value.steps as any
     });
-    this.router.navigateByUrl('/recipes');
+    this.router.navigateByUrl('/dishes');
   }
 }

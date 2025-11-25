@@ -5,7 +5,7 @@ import { USER_REPOSITORY } from '../../core/tokens';
 import { RECIPE_REPOSITORY } from '../../core/tokens';
 
 // Ajusta estas rutas a tus entidades reales
-import { RecipeRepository } from '../../domain/repositories/recipe.repository';
+import { DishRepository } from '../../domain/repositories/dish.repository';
 import { UserRepository } from '../../domain/repositories/user.repository';
 
 // Utiles
@@ -18,7 +18,7 @@ const addDays = (iso: string, n: number) => {
 @Injectable({ providedIn: 'root' })
 export class SimpleHeuristicPlannerService implements PlannerService {
   private userRepo = inject<UserRepository>(USER_REPOSITORY);
-  private recipeRepo = inject<RecipeRepository>(RECIPE_REPOSITORY);
+  private recipeRepo = inject<DishRepository>(RECIPE_REPOSITORY);
 
   async proposePlan(params: { ownerId: string; startDate: string; endDate: string }): Promise<MealPlan> {
     const { ownerId, startDate, endDate } = params;

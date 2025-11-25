@@ -31,7 +31,7 @@ export class AppShellComponent {
 
   menu = [
     { icon: 'event', label: 'Planificador', link: '/dashboard' },
-    { icon: 'list', label: 'Recetas', link: '/recipes' },
+    { icon: 'list', label: 'Recetas', link: '/dishes' },
     { icon: 'shopping_cart', label: 'Lista de compras', link: '/shopping' },
     { icon: 'person', label: 'Perfil', link: '/profile' },
     { icon: 'event', label: 'Planificador', link: '/planner' },

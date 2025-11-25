@@ -4,8 +4,8 @@ import { firstValueFrom } from 'rxjs';
 import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-by-range.usecase';
 import { RECIPE_REPOSITORY } from 'src/app/core/tokens';
 import { MealPlan } from 'src/app/domain/entities/meal-plan';
-import { Recipe } from 'src/app/domain/entities/dish';
-import { RecipeRepository } from 'src/app/domain/repositories/recipe.repository';
+import { Dish } from 'src/app/domain/entities/dish';
+import { DishRepository } from 'src/app/domain/repositories/dish.repository';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -22,10 +22,10 @@ export class PlannerCalendarComponent {
   loading = true;
 
   plan: MealPlan | null = null;
-  recipesById = new Map<string, Recipe>();
+  recipesById = new Map<string, Dish>();
 
   private auth = inject(AuthService);
-  private repo = inject(RECIPE_REPOSITORY) as RecipeRepository;
+  private repo = inject(RECIPE_REPOSITORY) as DishRepository;
 
   constructor(
     private route: Router,
