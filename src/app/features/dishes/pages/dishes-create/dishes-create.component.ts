@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Firestore, collection, doc } from '@angular/fire/firestore';
 
-import { CreateDish } from '../../../../application/services/create-recipe.usecase';
+import { CreateDish } from '../../../../application/services/create-dishes.usecase';
 import { AuthService } from '../../../../services/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
@@ -19,10 +19,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     RouterModule
   ],
-  selector: 'app-recipe-create',
-  templateUrl: './recipe-create.component.html',
+  selector: 'app-dishes-create',
+  templateUrl: './dishes-create.component.html',
 })
-export class RecipeCreateComponent {
+export class DishCreateComponent {
   form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     servings: [4, [Validators.required, Validators.min(1)]],

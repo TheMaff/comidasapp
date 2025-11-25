@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { LayoutModule } from './layout/layout.module';
 
-import { MEAL_PLAN_REPOSITORY, PLANNER_SERVICE, RECIPE_REPOSITORY, USER_REPOSITORY } from './core/tokens';
+import { MEAL_PLAN_REPOSITORY, PLANNER_SERVICE, DISH_REPOSITORY, USER_REPOSITORY } from './core/tokens';
 import { DishFirebaseRepository } from './infrastructure/firebase/repositories/dish.firebase.repository';
 import { UserFirebaseRepository } from './infrastructure/firebase/repositories/user.firebase.repository';
 import { SharedModule } from './shared/shared.module';
@@ -49,7 +49,7 @@ import { SimpleHeuristicPlannerService } from './application/services/simple-heu
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
 
-    { provide: RECIPE_REPOSITORY, useClass: DishFirebaseRepository },
+    { provide: DISH_REPOSITORY, useClass: DishFirebaseRepository },
     { provide: USER_REPOSITORY, useClass: UserFirebaseRepository },
     { provide: MEAL_PLAN_REPOSITORY, useClass: MealPlanFirebaseRepository },
     { provide: PLANNER_SERVICE, useClass: SimpleHeuristicPlannerService },

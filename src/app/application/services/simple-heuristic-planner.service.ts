@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { PlannerService } from '../../core/tokens';
 import { MealPlan, MealAssignment } from '../../domain/entities/meal-plan';
 import { USER_REPOSITORY } from '../../core/tokens';
-import { RECIPE_REPOSITORY } from '../../core/tokens';
+import { DISH_REPOSITORY } from '../../core/tokens';
 
 // Ajusta estas rutas a tus entidades reales
 import { DishRepository } from '../../domain/repositories/dish.repository';
@@ -18,14 +18,14 @@ const addDays = (iso: string, n: number) => {
 @Injectable({ providedIn: 'root' })
 export class SimpleHeuristicPlannerService implements PlannerService {
   private userRepo = inject<UserRepository>(USER_REPOSITORY);
-  private recipeRepo = inject<DishRepository>(RECIPE_REPOSITORY);
+  private dishesRepo = inject<DishRepository>(DISH_REPOSITORY);
 
   async proposePlan(params: { ownerId: string; startDate: string; endDate: string }): Promise<MealPlan> {
     const { ownerId, startDate, endDate } = params;
 
     // 1) Datos base
     const profile = await this.userRepo.get(ownerId);
-      const recipes = await this.recipeRepo.listByUser(ownerId);
+      const dishes = await this.dishesRepo.listByUser(ownerId);
 
     const members = profile?.members ?? [];
     // 2) Filtrado por restricciones (MVP muy simple)
@@ -36,7 +36,7 @@ export class SimpleHeuristicPlannerService implements PlannerService {
       members.flatMap(m => (m.intolerances ?? []).map(s => s.toLowerCase()))
     );
 
-    const compatible = recipes.filter((r: any) => {
+    const compatible = dishes.filter((r: any) => {
       const tags: string[] = (r.tags ?? []).map((t: string) => t.toLowerCase());
       // si la receta declara "contains" (ej: gluten, nuts, dairy...), filtra
       const contains: string[] = (r.contains ?? []).map((t: string) => t.toLowerCase());
@@ -47,7 +47,7 @@ export class SimpleHeuristicPlannerService implements PlannerService {
 
     if (compatible.length === 0) {
       // fallback duro: usa todas las recetas del usuario
-      compatible.push(...recipes);
+      compatible.push(...dishes);
     }
 
     // 3) Scoring simple por preferencias (más matches = mayor prioridad)
@@ -79,10 +79,10 @@ export class SimpleHeuristicPlannerService implements PlannerService {
       let picked = scored[assignments.length % scored.length]?.r;
       // evita repetición en ventana
       for (const cand of scored) {
-        const recent = assignments.slice(-window).some(a => a.recipeId === cand.r.id);
+        const recent = assignments.slice(-window).some(a => a.dishId === cand.r.id);
         if (!recent) { picked = cand.r; break; }
       }
-      assignments.push({ date, recipeId: picked.id });
+      assignments.push({ date, dishId: picked.id });
     }
 
     const plan: MealPlan = {

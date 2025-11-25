@@ -3,7 +3,7 @@ import { DishRepository } from '../domain/repositories/dish.repository';
 import { UserRepository } from '../domain/repositories/user.repository';
 import { MealPlanRepository } from '../domain/repositories/meal-plan.repository';
 
-export const RECIPE_REPOSITORY = new InjectionToken<DishRepository>('RECIPE_REPOSITORY');
+export const DISH_REPOSITORY = new InjectionToken<DishRepository>('DISH_REPOSITORY');
 export const USER_REPOSITORY = new InjectionToken<UserRepository>('USER_REPOSITORY');
 export const MEAL_PLAN_REPOSITORY = new InjectionToken<MealPlanRepository>('MEAL_PLAN_REPOSITORY');
 

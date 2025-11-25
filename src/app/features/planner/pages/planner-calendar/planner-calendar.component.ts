@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-by-range.usecase';
-import { RECIPE_REPOSITORY } from 'src/app/core/tokens';
+import { DISH_REPOSITORY } from 'src/app/core/tokens';
 import { MealPlan } from 'src/app/domain/entities/meal-plan';
 import { Dish } from 'src/app/domain/entities/dish';
 import { DishRepository } from 'src/app/domain/repositories/dish.repository';
@@ -22,10 +22,10 @@ export class PlannerCalendarComponent {
   loading = true;
 
   plan: MealPlan | null = null;
-  recipesById = new Map<string, Dish>();
+  dishesById = new Map<string, Dish>();
 
   private auth = inject(AuthService);
-  private repo = inject(RECIPE_REPOSITORY) as DishRepository;
+  private repo = inject(DISH_REPOSITORY) as DishRepository;
 
   constructor(
     private route: Router,
@@ -48,9 +48,9 @@ export class PlannerCalendarComponent {
       
       // 2) Pre-cargar recetas usadas para poder mostrar nombre
       if (this.plan) {
-        const ids = Array.from(new Set(this.plan.assignments.map(a => a.recipeId)));
+        const ids = Array.from(new Set(this.plan.assignments.map(a => a.dishId)));
         const all = await this.repo.listByUser(uid);
-        for (const r of all) if (ids.includes(r.id)) this.recipesById.set(r.id, r);
+        for (const r of all) if (ids.includes(r.id)) this.dishesById.set(r.id, r);
       }
     } finally {
       this.loading = false;
@@ -68,11 +68,11 @@ export class PlannerCalendarComponent {
     return res;
   }
 
-  getRecipeName(dateISO: string): string {
+  getDishName(dateISO: string): string {
     if (!this.plan) return '—';
     const asg = this.plan.assignments.find(a => a.date === dateISO);
     if (!asg) return '—';
-    return this.recipesById.get(asg.recipeId)?.name ?? asg.recipeId;
+    return this.dishesById.get(asg.dishId)?.name ?? asg.dishId;
   }
 
   openDay(dateISO: string) {
