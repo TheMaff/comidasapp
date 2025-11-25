@@ -6,10 +6,15 @@ import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.compo
 const routes: Routes = [
   { path: '', component: RecipesListComponent },
   { path: 'new', component: RecipeCreateComponent },
+  
+  {
+    path: ':dishId',
+    component: RecipeCreateComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RecipesRoutingModule { }
+export default class DISHES_ROUTES { }

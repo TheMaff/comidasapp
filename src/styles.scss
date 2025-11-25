@@ -19,3 +19,16 @@ body {
 .mat-mdc-form-field-infix {
   overflow: visible;
 }
+
+.snackbar-error {
+  background-color: #c62828; // rojo Material 800
+  color: #fff;
+}
+.snackbar-success {
+  background-color: #2e7d32; // verde Material 800
+  color: #fff;
+}
+.snackbar-info {
+  background-color: #1565c0; // azul Material 800
+  color: #fff;
+}

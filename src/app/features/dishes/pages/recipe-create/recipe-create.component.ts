@@ -1,13 +1,24 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Firestore, collection, doc } from '@angular/fire/firestore';
 
-import { CreateRecipe } from '../../../../application/services/create-recipe.usecase';
+import { CreateDish } from '../../../../application/services/create-recipe.usecase';
 import { AuthService } from '../../../../services/auth.service';
 import { firstValueFrom } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    SharedModule,
+    RouterModule
+  ],
   selector: 'app-recipe-create',
   templateUrl: './recipe-create.component.html',
 })
@@ -24,7 +35,7 @@ export class RecipeCreateComponent {
 
   constructor(
     private fb: FormBuilder,
-    private createRecipe: CreateRecipe,
+    private createDish: CreateDish,
     private auth: AuthService,
     private router: Router,
     private fs: Firestore) { }
@@ -39,9 +50,7 @@ export class RecipeCreateComponent {
   async save() {
     if (this.form.invalid) return;
     const uid = (await firstValueFrom(this.auth.user$))?.uid!;
-    const id = doc(collection(this.fs, 'recipes')).id;
-    await this.createRecipe.execute({
-      id,
+    await this.createDish.execute({
       ownerId: uid,
       name: this.form.value.name!,
       servings: this.form.value.servings!,

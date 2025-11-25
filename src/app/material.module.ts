@@ -13,6 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
     exports: [
@@ -29,7 +30,9 @@ import { MatBadgeModule } from '@angular/material/badge';
         MatListModule,
         MatDividerModule,
         MatMenuModule,
-        MatBadgeModule
+        MatBadgeModule,
+
+        MatTableModule,
     ]
 })
 export class MaterialModule { }

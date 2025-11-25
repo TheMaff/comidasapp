@@ -7,22 +7,21 @@
 
                         <h3 class="mb-5">Sign in</h3>
                         
-                        <!-- <form [formGroup]="form" (ngSubmit)="onSubmitEmail()"> -->
-                        <form (ngSubmit)="onSubmitEmail()">
+                        <form [formGroup]="form" (ngSubmit)="onSubmitEmail()">
 
                             <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
+                                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" formControlName="email" />
                                 <label class="form-label" for="typeEmailX-2">Email</label>
                             </div>
 
                             <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
+                                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" formControlName="password" />
                                 <label class="form-label" for="typePasswordX-2">Password</label>
                             </div>
 
                             <!-- Checkbox -->
                             <div class="form-check d-flex justify-content-start mb-4">
-                                <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
+                                <input class="form-check-input" type="checkbox" value="" id="form1Example3" formControlName="remember" />
                                 <label class="form-check-label" for="form1Example3"> Remember password </label>
                             </div>
                             <div class="d-grid gap-2">

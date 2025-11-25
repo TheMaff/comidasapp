@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 //Modulos
@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+
+import { ErrorHandlerService } from './core/error-handling/error-handler.service';
 
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
@@ -52,6 +54,7 @@ import { SimpleHeuristicPlannerService } from './application/services/simple-heu
     { provide: USER_REPOSITORY, useClass: UserFirebaseRepository },
     { provide: MEAL_PLAN_REPOSITORY, useClass: MealPlanFirebaseRepository },
     { provide: PLANNER_SERVICE, useClass: SimpleHeuristicPlannerService },
+    { provide: ErrorHandler, useClass: ErrorHandlerService }
   ]
 })
 export class AppModule { }

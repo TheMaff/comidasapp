@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-by-range.usecase';
 import { RECIPE_REPOSITORY } from 'src/app/core/tokens';
 import { MealPlan } from 'src/app/domain/entities/meal-plan';
-import { Recipe } from 'src/app/domain/entities/recipe';
+import { Recipe } from 'src/app/domain/entities/dish';
 import { RecipeRepository } from 'src/app/domain/repositories/recipe.repository';
 import { AuthService } from 'src/app/services/auth.service';
 

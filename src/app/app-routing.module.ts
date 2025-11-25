@@ -19,7 +19,10 @@ const routes: Routes = [
     children: [
       { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'profile', loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule) },
-      { path: 'recipes', loadChildren: () => import('./features/recipes/recipes.module').then(m => m.RecipesModule) },
+      { 
+        path: 'dishes', 
+        loadChildren: () => import('./features/dishes/dishes.routes')
+      },
       { path: 'planner', loadChildren: () => import('./features/planner/planner.module').then(m => m.PlannerModule) },
     ]
   },

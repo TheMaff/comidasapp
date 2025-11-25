@@ -1,16 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { RECIPE_REPOSITORY } from '../../core/tokens';
 import { RecipeRepository } from '../../domain/repositories/recipe.repository';
-import { Recipe } from '../../domain/entities/recipe';
+import { CreateDishDTO } from '../../domain/dtos/create-dish.dto';
 
 @Injectable({ providedIn: 'root' })
-export class CreateRecipe {
+export class CreateDish {
     private repo = inject<RecipeRepository>(RECIPE_REPOSITORY);
-    async execute(recipe: Recipe) {
+    
+    async execute(dishData: CreateDishDTO) {
         // aquí puedes validar reglas de negocio (DDD)
-        if (!recipe.name || recipe.servings <= 0) {
-            throw new Error('Datos inválidos para receta');
+        if (!dishData.name || dishData.servings <= 0) {
+            throw new Error('Datos inválidos para plato');
         }
-        return this.repo.create(recipe);
+        return this.repo.create(dishData);
     }
 }

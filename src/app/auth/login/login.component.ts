@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { ErrorHandlerService } from 'src/app/core/error-handling/error-handler.service';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private errorHandler: ErrorHandlerService
   ) { }
 
   ngOnInit(): void {
@@ -35,14 +37,16 @@ export class LoginComponent implements OnInit {
   async onSubmitEmail() {
     if (this.form.invalid) return;
     const { email, password } = this.form.value;
+
     try {
       this.loading = true;
       const cred = await this.authService.loginWithEmail(email!, password!);
       await this.userService.ensureProfile(cred.user); // por si no existía
       this.router.navigateByUrl('/dashboard');
-    } catch (e: any) {
-      console.error(e);
+    } catch (error: any) {
       // TODO: mostrar snackbar con mensajes por código (auth/wrong-password, etc.)
+      this.errorHandler.handleFirebaseAuthError(error);
+      console.error(error);
     } finally {
       this.loading = false;
     }
@@ -57,6 +61,7 @@ export class LoginComponent implements OnInit {
       console.log('User logged in:', cred.user);
       this.router.navigateByUrl('/dashboard');
     } catch (e) {
+      this.errorHandler.handleFirebaseAuthError(e);
       console.error('Login error:', e);
     } finally {
       this.loading = false;
@@ -70,6 +75,7 @@ export class LoginComponent implements OnInit {
       console.log('User logged out');
       this.router.navigateByUrl('/login');
     } catch (e) {
+      this.errorHandler.handleFirebaseAuthError(e);
       console.error('Logout error:', e);
     } finally {
       this.loading = false;
@@ -85,6 +91,7 @@ export class LoginComponent implements OnInit {
       // Aquí podrías mostrar un snackbar o alerta al usuario
 
     }catch (e) {
+      this.errorHandler.handleFirebaseAuthError(e);
       console.error(e);
     }
   }
