@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute, RouterModule} from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-by-range.usecase';
 import { DISH_REPOSITORY } from 'src/app/core/tokens';
@@ -8,10 +8,25 @@ import { Dish } from 'src/app/domain/entities/dish';
 import { DishRepository } from 'src/app/domain/repositories/dish.repository';
 import { AuthService } from 'src/app/services/auth.service';
 
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { DayCardComponent } from '../../components/day-card/day-card.component';
+import { MatCardModule } from '@angular/material/card';
+
 @Component({
   selector: 'app-planner-calendar',
   templateUrl: './planner-calendar.component.html',
-  styleUrls: ['./planner-calendar.component.scss']
+  styleUrls: ['./planner-calendar.component.scss'],
+  standalone: true, // 👈
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    DayCardComponent 
+  ]
 })
 export class PlannerCalendarComponent {
 

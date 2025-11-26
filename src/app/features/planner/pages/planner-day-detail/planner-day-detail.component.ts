@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-by-range.usecase';
 import { SaveMealPlan } from 'src/app/application/services/save-meal-plan.usecase';
@@ -9,10 +9,27 @@ import { Dish } from 'src/app/domain/entities/dish';
 import { DishRepository } from 'src/app/domain/repositories/dish.repository';
 import { AuthService } from 'src/app/services/auth.service';
 
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+
 @Component({
   selector: 'app-planner-day-detail',
   templateUrl: './planner-day-detail.component.html',
-  styleUrls: ['./planner-day-detail.component.scss']
+  styleUrls: ['./planner-day-detail.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule
+  ]
 })
 export class PlannerDayDetailComponent implements OnInit {
 
@@ -65,15 +82,18 @@ export class PlannerDayDetailComponent implements OnInit {
     if (!this.plan || !this.selectedDishId) return;
     this.saving = true;
     try {
-      const idx = this.plan.assignments.findIndex(a => a.date === this.date);
-      if (idx >= 0) {
-        this.plan.assignments[idx] = { ...this.plan.assignments[idx], dishId: this.selectedDishId };
-      } else {
-        this.plan.assignments.push({ date: this.date, dishId: this.selectedDishId });
-      }
-      this.plan.updatedAt = new Date().toISOString();
+      // 🚨 CORRECCIÓN DDD: Delegamos la lógica a la Entidad
+      // El método assignDish ya maneja:
+      // 1. Buscar si existe asignación para la fecha.
+      // 2. Actualizarla o crear una nueva.
+      // 3. Actualizar el 'updatedAt' automáticamente (touch).
+      this.plan.assignDish(this.date, this.selectedDishId);
+
       await this.savePlan.execute(this.plan);
-      this.router.navigate(['/planner/calendar'], { queryParams: { start: this.start, days: this.days } });
+
+      this.router.navigate(['/planner/calendar'], {
+        queryParams: { start: this.start, days: this.days }
+      });
     } finally {
       this.saving = false;
     }
@@ -84,5 +104,4 @@ export class PlannerDayDetailComponent implements OnInit {
     const base = new Date(iso + 'T00:00:00Z'); base.setUTCDate(base.getUTCDate() + n);
     return base.toISOString().slice(0, 10);
   }
-
 }

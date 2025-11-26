@@ -84,11 +84,15 @@ export class SimpleHeuristicPlannerService implements PlannerService {
       }
       assignments.push({ date, dishId: picked.id });
     }
-
-    const plan: MealPlan = {
-      id: '', ownerId, startDate, endDate, assignments,
-      createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-    };
-    return plan;
+    
+    return MealPlan.fromPrimitives({
+      id: '', // ID vacío temporal, se generará al guardar
+      ownerId,
+      startDate,
+      endDate,
+      assignments,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    });
   }
 }
