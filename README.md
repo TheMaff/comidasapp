@@ -12,14 +12,14 @@
 
 ## Tabla de Contenidos
 
-1. [Características del Sistema](#-características-del-sistema)
-2. [Arquitectura y Diseño](#-arquitectura-y-diseño)
-3. [Estructura del Proyecto](#-estructura-del-proyecto)
-4. [Requisitos Previos](#-requisitos-previos)
-5. [Guía de Instalación y Configuración](#-guía-de-instalación-y-configuración)
-6. [Scripts Disponibles](#-scripts-disponibles)
-7. [Flujo de Trabajo (Git & Commits)](#-flujo-de-trabajo)
-8. [Roadmap](#-roadmap)
+1. [Características del Sistema](#características-del-sistema)
+2. [Arquitectura y Diseño](#arquitectura-y-diseño)
+3. [Estructura del Proyecto](#estructura-del-proyecto)
+4. [Requisitos Previos](#requisitos-previos)
+5. [Guía de Instalación y Configuración](#guía-de-instalación-y-configuración)
+6. [Scripts Disponibles](#scripts-disponibles)
+7. [Flujo de Trabajo (Git & Commits)](#flujo-de-trabajo)
+8. [Roadmap](#roadmap)
 
 ---
 
