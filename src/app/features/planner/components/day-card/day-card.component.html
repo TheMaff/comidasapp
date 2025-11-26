@@ -1,1 +1,9 @@
-<p>day-card works!</p>
+<mat-card class="h-100 cursor-pointer hover-shadow">
+    <mat-card-header class="justify-content-center pt-2">
+        <mat-card-title class="fs-6 mb-0">{{ title }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="p-2">
+        <ng-content></ng-content>
+    </mat-card-content>
+</mat-card>

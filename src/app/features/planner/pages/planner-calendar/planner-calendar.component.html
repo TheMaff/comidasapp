@@ -1,35 +1,25 @@
-<mat-card>
-    <mat-card-header class="mb-4">
-        <mat-card-title-group>
-            <mat-card-title>Calendario</mat-card-title>
-        </mat-card-title-group>
-    </mat-card-header>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Planificador Semanal</h2>
+    </div>
 
-    <mat-card-content>
-        <ng-container *ngIf="!loading; else skeleton">
-            <div class="d-flex flex-wrap gap-2">
-                <button mat-stroked-button *ngFor="let d of dates" (click)="openDay(d)">
-                    <div class="d-flex flex-column" style="text-align:left">
-                        <span class="badge rounded-pill bg-danger"> {{ d }} </span>
-                        <h4 class="fw-600">
-                            {{ getDishName(d) }}
-                        </h4> 
-                    </div>
-                </button>
-            </div>
-            <p class="mt-2" *ngIf="!plan">No hay plan guardado para este rango.</p>
-        </ng-container>
+    <div *ngIf="loading()" class="text-center my-5">
+        <p>Cargando calendario...</p>
+    </div>
 
-        <ng-template #skeleton>
-            Cargando…
-        </ng-template>
-        
-        <!-- //// -->
-        
-        <!-- <div class="d-flex flex-wrap gap-2">
-            <button mat-stroked-button *ngFor="let d of dates" (click)="openDay(d)">
-                {{ d }}
-            </button>
-        </div> -->
-    </mat-card-content>
-</mat-card>
+    <div *ngIf="viewData() as data" class="row g-3">
+        <div class="col-12 col-md-6 col-lg-4" *ngFor="let date of data.dates">
+
+            <app-day-card [date]="date" [title]="(date | date:'EEEE d') || ''" (click)="openDay(date, data.start, data.days)">
+
+                <div class="text-center p-2">
+                    <h4 class="mb-0">
+                        {{ getDishName(date, data.plan, data.dishesMap) }}
+                    </h4>
+                </div>
+
+            </app-day-card>
+
+        </div>
+    </div>
+</div>
