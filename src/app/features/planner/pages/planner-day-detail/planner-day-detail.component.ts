@@ -65,15 +65,18 @@ export class PlannerDayDetailComponent implements OnInit {
     if (!this.plan || !this.selectedDishId) return;
     this.saving = true;
     try {
-      const idx = this.plan.assignments.findIndex(a => a.date === this.date);
-      if (idx >= 0) {
-        this.plan.assignments[idx] = { ...this.plan.assignments[idx], dishId: this.selectedDishId };
-      } else {
-        this.plan.assignments.push({ date: this.date, dishId: this.selectedDishId });
-      }
-      this.plan.updatedAt = new Date().toISOString();
+      // 🚨 CORRECCIÓN DDD: Delegamos la lógica a la Entidad
+      // El método assignDish ya maneja:
+      // 1. Buscar si existe asignación para la fecha.
+      // 2. Actualizarla o crear una nueva.
+      // 3. Actualizar el 'updatedAt' automáticamente (touch).
+      this.plan.assignDish(this.date, this.selectedDishId);
+
       await this.savePlan.execute(this.plan);
-      this.router.navigate(['/planner/calendar'], { queryParams: { start: this.start, days: this.days } });
+
+      this.router.navigate(['/planner/calendar'], {
+        queryParams: { start: this.start, days: this.days }
+      });
     } finally {
       this.saving = false;
     }
@@ -84,5 +87,4 @@ export class PlannerDayDetailComponent implements OnInit {
     const base = new Date(iso + 'T00:00:00Z'); base.setUTCDate(base.getUTCDate() + n);
     return base.toISOString().slice(0, 10);
   }
-
 }
