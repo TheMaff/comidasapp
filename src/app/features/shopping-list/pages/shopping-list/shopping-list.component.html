@@ -1,0 +1,56 @@
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Lista de Compras</h2>
+
+        <div class="d-flex gap-2">
+            <button mat-icon-button (click)="changeWeek(-1)">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <span class="align-self-center text-muted small">Semana del {{ viewData()?.start | date:'dd/MM' }}</span>
+            <button mat-icon-button (click)="changeWeek(1)">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="loading()" class="text-center py-5">
+        <p class="text-muted">Calculando ingredientes...</p>
+    </div>
+
+    <div *ngIf="!loading() && viewData()?.list?.items?.length === 0" class="text-center py-5 bg-light rounded">
+        <mat-icon class="display-4 text-muted">remove_shopping_cart</mat-icon>
+        <p class="mt-2">No hay comidas planificadas para esta semana.</p>
+        <a mat-button color="primary" routerLink="/planner">Ir al Planificador</a>
+    </div>
+
+    <mat-card *ngIf="!loading() && viewData()?.list as shoppingList" class="mb-4">
+        <mat-card-header class="d-flex justify-content-between align-items-center py-2">
+            <mat-card-title>
+                Ingredientes ({{ shoppingList.items.length }})
+            </mat-card-title>
+            <button mat-stroked-button color="primary" (click)="copyToClipboard(shoppingList)">
+                <mat-icon>content_copy</mat-icon> Copiar texto
+            </button>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+
+        <mat-list>
+            <mat-list-item *ngFor="let item of shoppingList.items" class="h-auto py-2">
+                <div class="d-flex align-items-center w-100">
+                    <mat-checkbox color="primary" [(ngModel)]="item.checked" class="me-3">
+                    </mat-checkbox>
+
+                    <div [class.strikethrough]="item.checked" class="flex-grow-1">
+                        <span class="fw-bold">{{ item.name | titlecase }}</span>
+                    </div>
+
+                    <div [class.strikethrough]="item.checked" class="text-muted">
+                        {{ item.amount }} {{ item.unit }}
+                    </div>
+                </div>
+            </mat-list-item>
+        </mat-list>
+    </mat-card>
+</div>

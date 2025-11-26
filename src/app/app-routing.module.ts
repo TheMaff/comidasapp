@@ -27,6 +27,10 @@ const routes: Routes = [
         path: 'planner',
         loadChildren: () => import('./features/planner/planner.routes')
       },
+      {
+        path: 'shopping-list',
+        loadChildren: () => import('./features/shopping-list/shopping-list.routes')
+      },
     ]
   },
   
