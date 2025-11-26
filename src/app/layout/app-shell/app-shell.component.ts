@@ -6,7 +6,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-const DESKTOP_QUERY = '(min-width: 992px)'; // breakpoint Bootstrap "lg"
+const DESKTOP_QUERY = '(min-width: 992px)'; // breakpoint "lg"
 
 @Component({
   selector: 'app-shell',
