@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-by-range.usecase';
 import { SaveMealPlan } from 'src/app/application/services/save-meal-plan.usecase';
@@ -9,10 +9,27 @@ import { Dish } from 'src/app/domain/entities/dish';
 import { DishRepository } from 'src/app/domain/repositories/dish.repository';
 import { AuthService } from 'src/app/services/auth.service';
 
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+
 @Component({
   selector: 'app-planner-day-detail',
   templateUrl: './planner-day-detail.component.html',
-  styleUrls: ['./planner-day-detail.component.scss']
+  styleUrls: ['./planner-day-detail.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule
+  ]
 })
 export class PlannerDayDetailComponent implements OnInit {
 

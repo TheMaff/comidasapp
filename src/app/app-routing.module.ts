@@ -23,7 +23,10 @@ const routes: Routes = [
         path: 'dishes', 
         loadChildren: () => import('./features/dishes/dishes.routes')
       },
-      { path: 'planner', loadChildren: () => import('./features/planner/planner.module').then(m => m.PlannerModule) },
+      {
+        path: 'planner',
+        loadChildren: () => import('./features/planner/planner.routes')
+      },
     ]
   },
   
