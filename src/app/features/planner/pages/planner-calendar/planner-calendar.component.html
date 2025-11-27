@@ -1,25 +1,73 @@
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Planificador Semanal</h2>
+<div class="container mx-auto p-6 max-w-[1200px]">
+
+    <div class="flex justify-between items-end mb-6">
+        <div>
+            <h2 class="text-2xl font-semibold text-fg-default mb-1">Planificador</h2>
+            <p class="text-sm text-fg-muted">Organiza tus comidas para la semana.</p>
+        </div>
+
+        <div class="flex gap-2">
+        </div>
     </div>
 
-    <div *ngIf="loading()" class="text-center my-5">
-        <p>Cargando calendario...</p>
+    <div *ngIf="loading()" class="flex justify-center py-12">
+        <span class="text-fg-muted animate-pulse">Cargando calendario...</span>
     </div>
 
-    <div *ngIf="viewData() as data" class="row g-3">
-        <div class="col-12 col-md-6 col-lg-4" *ngFor="let date of data.dates">
-
-            <app-day-card [date]="date" [title]="(date | date:'EEEE d') || ''" (click)="openDay(date, data.start, data.days)">
-
-                <div class="text-center p-2">
-                    <h4 class="mb-0">
-                        {{ getDishName(date, data.plan, data.dishesMap) }}
-                    </h4>
+    <div *ngIf="viewData() as data"
+        class="bg-canvas-default border border-border-default rounded-md shadow-sm overflow-hidden">
+        
+        <div class="grid grid-cols-7 border-b border-border-default bg-canvas-subtle">
+            <div *ngFor="let dayName of ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']"
+                class="py-2 text-center text-xs font-semibold text-fg-muted uppercase tracking-wider border-r border-border-default last:border-r-0">
+                {{ dayName }}
+            </div>
+        </div>
+    
+        <div class="grid grid-cols-7 auto-rows-fr">
+    
+            <div *ngFor="let date of data.gridDates; let i = index"
+                class="relative min-h-[140px] p-3 border-b border-r border-border-default transition-colors group"
+                [class.border-r-0]="(i + 1) % 7 === 0" [class.border-b-0]="i >= data.gridDates.length - 7" [ngClass]="{
+                    'bg-white hover:bg-canvas-inset cursor-pointer': isInPlan(date, data.planStartStr, data.planEndStr),
+                    'bg-canvas-subtle text-fg-muted cursor-default': !isInPlan(date, data.planStartStr, data.planEndStr)
+                 }" (click)="openDay(date, data)">
+    
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-medium"
+                        [class.text-fg-default]="isInPlan(date, data.planStartStr, data.planEndStr)"
+                        [class.text-fg-muted]="!isInPlan(date, data.planStartStr, data.planEndStr)">
+                        {{ date | date:'d' }}
+                    </span>
                 </div>
-
-            </app-day-card>
-
+    
+                <div class="flex flex-col h-full" *ngIf="isInPlan(date, data.planStartStr, data.planEndStr)">
+                    <ng-container *ngIf="getDishName(date, data.plan, data.dishesMap) as dishName">
+    
+                        <div *ngIf="dishName !== '—'" class="mt-1">
+                            <div
+                                class="bg-white border border-border-muted rounded px-2 py-1.5 text-sm text-fg-default shadow-sm hover:border-accent-DEFAULT hover:text-accent-DEFAULT transition-all break-words">
+                                {{ dishName }}
+                            </div>
+                        </div>
+    
+                        <div *ngIf="dishName === '—'"
+                            class="flex-grow flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div
+                                class="w-8 h-8 rounded-full bg-canvas-default border border-border-default flex items-center justify-center text-fg-muted shadow-sm">
+                                <mat-icon class="text-sm !w-4 !h-4 !leading-4">add</mat-icon>
+                            </div>
+                        </div>
+    
+                    </ng-container>
+                </div>
+    
+                <div *ngIf="!isInPlan(date, data.planStartStr, data.planEndStr)"
+                    class="h-full flex items-center justify-center opacity-20">
+                    <mat-icon class="text-lg">block</mat-icon>
+                </div>
+    
+            </div>
         </div>
     </div>
 </div>

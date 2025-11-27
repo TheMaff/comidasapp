@@ -67,6 +67,14 @@ export class PlannerDayDetailComponent implements OnInit {
       const end = this.addDaysISO(this.start, this.days - 1);
       this.plan = await this.getPlan.execute(uid, this.start, end);
 
+      // 🚨 NUEVO: Manejo de Plan Inexistente
+      if (!this.plan) {
+        console.warn('No se encontró plan en BD. Redirigiendo para crear uno...');
+        // Opción A: Volver al calendario (donde se crea la propuesta)
+        this.router.navigate(['/planner/calendar'], { queryParams: { start: this.start, days: this.days } });
+        return;
+      }
+
       // cargar recetas del usuario para el selector
       this.dishes = await this.dishesRepo.listByUser(uid);
 
@@ -79,9 +87,19 @@ export class PlannerDayDetailComponent implements OnInit {
   }
 
   async save() {
-    if (!this.plan || !this.selectedDishId) return;
+    console.log('Intentando guardar...', { plan: this.plan, dishId: this.selectedDishId });
+
+    if (!this.plan) {
+      console.error('❌ Error: No hay plan cargado');
+      return;
+    }
+    if (!this.selectedDishId) {
+      console.error('❌ Error: No hay plato seleccionado');
+      return;
+    }
     this.saving = true;
     try {
+      console.log('✅ Guardando...');
       // 🚨 CORRECCIÓN DDD: Delegamos la lógica a la Entidad
       // El método assignDish ya maneja:
       // 1. Buscar si existe asignación para la fecha.
@@ -90,10 +108,13 @@ export class PlannerDayDetailComponent implements OnInit {
       this.plan.assignDish(this.date, this.selectedDishId);
 
       await this.savePlan.execute(this.plan);
+      console.log('🚀 Navegando...');
 
       this.router.navigate(['/planner/calendar'], {
         queryParams: { start: this.start, days: this.days }
       });
+    } catch (e) {
+      console.error('🔥 Excepción al guardar:', e);
     } finally {
       this.saving = false;
     }
@@ -101,7 +122,8 @@ export class PlannerDayDetailComponent implements OnInit {
 
   // addDaysISO = this.route.snapshot.paramMap.get('date')!;
   private addDaysISO(iso: string, n: number) {
-    const base = new Date(iso + 'T00:00:00Z'); base.setUTCDate(base.getUTCDate() + n);
+    const base = new Date(iso + 'T00:00:00Z'); // Forzar UTC
+    base.setUTCDate(base.getUTCDate() + n);
     return base.toISOString().slice(0, 10);
   }
 }

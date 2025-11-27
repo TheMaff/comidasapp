@@ -6,7 +6,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-const DESKTOP_QUERY = '(min-width: 992px)'; // breakpoint Bootstrap "lg"
+const DESKTOP_QUERY = '(min-width: 992px)'; // breakpoint "lg"
 
 @Component({
   selector: 'app-shell',
@@ -30,9 +30,9 @@ export class AppShellComponent {
   private sub = new Subscription();
 
   menu = [
-    { icon: 'event', label: 'Planificador', link: '/dashboard' },
-    { icon: 'list', label: 'Recetas', link: '/dishes' },
-    { icon: 'shopping_cart', label: 'Lista de compras', link: '/shopping' },
+    { icon: 'event', label: 'Dashboard', link: '/dashboard' },
+    { icon: 'list', label: 'Platos', link: '/dishes' },
+    { icon: 'shopping_cart', label: 'Lista de compras', link: '/shopping-list' },
     { icon: 'person', label: 'Perfil', link: '/profile' },
     { icon: 'event', label: 'Planificador', link: '/planner' },
     
