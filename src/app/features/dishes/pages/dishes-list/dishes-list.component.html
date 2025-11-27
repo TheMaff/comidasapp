@@ -1,31 +1,59 @@
-<mat-card>
-    <mat-card-title>Recetas</mat-card-title>
-    <div class="mb-2">
-        <a mat-raised-button color="primary" routerLink="new">Nueva receta</a>
+<div class="mb-6 flex justify-between items-center">
+    <div>
+        <h2 class="text-2xl font-semibold text-fg-default">Mis Recetas</h2>
+        <p class="text-sm text-fg-muted">Gestiona tu catálogo de platos.</p>
     </div>
+    <a routerLink="new"
+        class="bg-primary-DEFAULT hover:bg-primary-hover text-white px-4 py-2 rounded-md text-sm font-medium transition-colors no-underline flex items-center gap-2 shadow-sm">
+        <mat-icon class="icon-sm">add</mat-icon> Nueva receta
+    </a>
+</div>
 
-    <table mat-table [dataSource]="data()" class="w-100" *ngIf="!loading(); else loadingTpl">
+<div class="border border-border-default rounded-md overflow-hidden shadow-sm">
+    <table mat-table [dataSource]="data()" class="w-full">
+
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Nombre</th>
-            <td mat-cell *matCellDef="let r">{{ r.name }}</td>
+            <th mat-header-cell *matHeaderCellDef
+                class="!bg-canvas-subtle !text-fg-muted !font-semibold !text-xs uppercase !border-b !border-border-default px-4 py-3 text-left">
+                Nombre
+            </th>
+            <td mat-cell *matCellDef="let r"
+                class="!border-b !border-border-muted px-4 py-3 text-sm font-medium text-fg-default">
+                {{ r.name }}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="servings">
-            <th mat-header-cell *matHeaderCellDef>Porciones</th>
-            <td mat-cell *matCellDef="let r">{{ r.servings }}</td>
+            <th mat-header-cell *matHeaderCellDef
+                class="!bg-canvas-subtle !text-fg-muted !font-semibold !text-xs uppercase !border-b !border-border-default px-4 py-3">
+                Porciones
+            </th>
+            <td mat-cell *matCellDef="let r" class="!border-b !border-border-muted px-4 py-3 text-sm text-fg-muted">
+                <span class="bg-canvas-subtle border border-border-default px-2 py-0.5 rounded-full text-xs">
+                    {{ r.servings }} p.
+                </span>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Acciones</th>
-            <td mat-cell *matCellDef="let r">
-                <!-- luego: editar/eliminar -->
-                <button mat-button color="primary" [routerLink]="['/dishes', r.id]">Ver</button>
+            <th mat-header-cell *matHeaderCellDef
+                class="!bg-canvas-subtle !text-fg-muted !font-semibold !text-xs uppercase !border-b !border-border-default px-4 py-3 text-right">
+                Acciones
+            </th>
+            <td mat-cell *matCellDef="let r" class="!border-b !border-border-muted px-4 py-3 text-right">
+                <a [routerLink]="['/dishes', r.id]"
+                    class="text-accent-DEFAULT hover:underline text-sm font-medium cursor-pointer">
+                    Editar
+                </a>
             </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-canvas-subtle transition-colors">
+        </tr>
     </table>
 
-    <ng-template #loadingTpl> Cargando... </ng-template>
-</mat-card>
+    <div *ngIf="data()?.length === 0" class="p-8 text-center text-fg-muted">
+        No tienes recetas creadas aún.
+    </div>
+</div>
