@@ -1,56 +1,106 @@
-<section class="" style="background-color: #508bfc;">
-    <div class="container py-5">
-        <div class="row d-flex justify-content-center align-items-center">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-center">
+<div class="min-h-screen bg-canvas-subtle flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
 
-                        <h3 class="mb-5">Sign in</h3>
-                        
-                        <form [formGroup]="form" (ngSubmit)="onSubmitEmail()">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center mb-6">
+        <div
+            class="mx-auto h-12 w-12 bg-primary-default rounded-full flex items-center justify-center text-white mb-4 shadow-sm">
+            <mat-icon>restaurant</mat-icon>
+        </div>
+        <h2 class="text-3xl font-extrabold text-fg-default tracking-tight">
+            Inicia sesión
+        </h2>
+        <p class="mt-2 text-sm text-fg-muted">
+            Bienvenido a tu planificador de comidas.
+        </p>
+    </div>
 
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" formControlName="email" />
-                                <label class="form-label" for="typeEmailX-2">Email</label>
-                            </div>
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-gh sm:rounded-lg sm:px-10 border border-border-default">
 
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" formControlName="password" />
-                                <label class="form-label" for="typePasswordX-2">Password</label>
-                            </div>
+            <form [formGroup]="form" (ngSubmit)="onSubmitEmail()" class="space-y-6">
 
-                            <!-- Checkbox -->
-                            <div class="form-check d-flex justify-content-start mb-4">
-                                <input class="form-check-input" type="checkbox" value="" id="form1Example3" formControlName="remember" />
-                                <label class="form-check-label" for="form1Example3"> Remember password </label>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" [disabled]="loading || form.invalid">
-                                    Login
-                                </button>
-                            </div>
-                            <p>
-                                <a (click)="onForgotPassword()">¿Olvidaste tu contraseña?</a>
-                            </p>
-                            
-                            <p>
-                                ¿No tienes cuenta?
-                                <a routerLink="/register">Crear cuenta</a>
-                            </p>
-                        </form>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-fg-default mb-1">
+                        Correo electrónico
+                    </label>
+                    <mat-form-field appearance="outline" class="w-full compact-form-field no-subscript">
+                        <input matInput type="email" id="email" formControlName="email">
+                        <mat-error *ngIf="form.get('email')?.hasError('required')">Requerido</mat-error>
+                        <mat-error *ngIf="form.get('email')?.hasError('email')">Email inválido</mat-error>
+                    </mat-form-field>
+                </div>
 
-                        <hr class="my-4">
-                        <div class="d-grid gap-2">
-                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-danger btn-google" (click)="loginWithGoogle()" [disabled]="loading">
-                                <i class="bi bi-google"></i> Sign in with google
-                            </button>
-                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary mb-2" type="submit"><i class="fab fa-facebook-f me-2"></i>Sign
-                            in with facebook</button>
-                        </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-fg-default mb-1">
+                        Contraseña
+                    </label>
+                    <mat-form-field appearance="outline" class="w-full compact-form-field no-subscript">
+                        <input matInput type="password" id="password" formControlName="password">
+                        <mat-error *ngIf="form.get('password')?.hasError('required')">Requerido</mat-error>
+                    </mat-form-field>
+                </div>
 
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <mat-checkbox color="primary" formControlName="remember">
+                            <span class="text-sm text-fg-default">Recordarme</span>
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="text-sm">
+                        <a (click)="onForgotPassword()"
+                            class="font-medium text-accent-default hover:text-accent-hover cursor-pointer hover:underline">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" [disabled]="form.invalid || loading"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-default hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-default disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                        <span *ngIf="loading"
+                            class="mr-2 animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                        {{ loading ? 'Iniciando...' : 'Iniciar Sesión' }}
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-border-default"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-fg-muted">O continúa con</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <button (click)="loginWithGoogle()"
+                        class="w-full inline-flex justify-center py-2 px-4 border border-border-default rounded-md shadow-sm bg-white text-sm font-medium text-fg-default hover:bg-canvas-subtle transition-colors">
+                        <span class="sr-only">Sign in with Google</span>
+                        <svg class="h-5 w-5" viewBox="0 0 24 24">
+                            <path
+                                d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"
+                                fill="currentColor" />
+                        </svg>
+                        <span class="ml-2">Google</span>
+                    </button>
+                    <div
+                        class="w-full inline-flex justify-center py-2 px-4 border border-border-default rounded-md shadow-sm bg-gray-50 text-sm font-medium text-fg-muted cursor-not-allowed">
+                        <span class="ml-2">Facebook</span>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <div class="mt-6">
+            <p class="mt-6 text-center text-sm text-fg-muted">
+                ¿No tienes cuenta?
+                <a routerLink="/register"
+                class="font-medium text-accent-default hover:text-accent-hover cursor-pointer hover:underline">
+                Regístrate aquí
+                </a>
+            </p>
+        </div>
     </div>
-</section>
+</div>

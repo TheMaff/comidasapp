@@ -1,54 +1,84 @@
-<section style="background-color: #508bfc;">
-    <div class="container py-5">
-        <div class="row d-flex justify-content-center align-items-center">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-center">
+<div class="min-h-screen bg-canvas-subtle flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
 
-                            <h3>Crear cuenta</h3>
-                            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                                
-                                <mat-form-field appearance="fill" class="w-100">
-                                    <mat-label>Nombre</mat-label>
-                                    <input matInput formControlName="name">
-                                </mat-form-field>
-                            
-                        
-                                <mat-form-field appearance="fill" class="w-100">
-                                    <mat-label>Email</mat-label>
-                                    <input matInput type="email" formControlName="email">
-                                </mat-form-field>
-                        
-                                <mat-form-field appearance="fill" class="w-100">
-                                    <mat-label>Contraseña</mat-label>
-                                    <input matInput type="password" formControlName="password">
-                                </mat-form-field>
-                        
-                                <mat-form-field appearance="fill" class="w-100">
-                                    <mat-label>Confirmar contraseña</mat-label>
-                                    <input matInput type="password" formControlName="confirm">
-                                    <mat-error *ngIf="form.get('confirm')?.hasError('passwordMismatch')">
-                                        Las contraseñas no coinciden.
-                                    </mat-error>
-                                </mat-form-field>
-                        
-                                <mat-checkbox formControlName="remember">Mantener sesión iniciada</mat-checkbox>
-                                <mat-checkbox formControlName="terms">Acepto los términos y condiciones</mat-checkbox>
-                        
-                                <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
-                                    Crear cuenta
-                                </button>
-                                
-                                <hr class="my-4">
-                        
-                                <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
-                            </form>
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center mb-6">
+        <div
+            class="mx-auto h-12 w-12 bg-primary-default rounded-full flex items-center justify-center text-white mb-4 shadow-sm">
+            <mat-icon>restaurant</mat-icon>
+        </div>
+        <h2 class="text-3xl font-extrabold text-fg-default tracking-tight">
+            Crea tu cuenta
+        </h2>
+        <p class="mt-2 text-sm text-fg-muted">
+            Empieza a planificar tus comidas hoy mismo.
+        </p>
+    </div>
 
-                            
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-gh sm:rounded-lg sm:px-10 border border-border-default">
 
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+
+                <div>
+                    <label class="block text-sm font-medium text-fg-default mb-1">Nombre</label>
+                    <mat-form-field appearance="outline" class="w-full compact-form-field no-subscript">
+                        <input matInput formControlName="name">
+                        <mat-error *ngIf="form.get('name')?.hasError('required')">Requerido</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-fg-default mb-1">Email</label>
+                    <mat-form-field appearance="outline" class="w-full compact-form-field no-subscript">
+                        <input matInput type="email" formControlName="email">
+                        <mat-error *ngIf="form.get('email')?.hasError('email')">Email inválido</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-fg-default mb-1">Contraseña</label>
+                        <mat-form-field appearance="outline" class="w-full compact-form-field no-subscript">
+                            <input matInput type="password" formControlName="password">
+                            <mat-error *ngIf="form.get('password')?.hasError('minlength')">Mín 6 chars</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-fg-default mb-1">Confirmar</label>
+                        <mat-form-field appearance="outline" class="w-full compact-form-field no-subscript">
+                            <input matInput type="password" formControlName="confirm">
+                            <mat-error *ngIf="form.hasError('passwordsMismatch')">No coinciden</mat-error>
+                        </mat-form-field>
                     </div>
                 </div>
-            </div>
+
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <mat-checkbox color="primary" formControlName="terms"></mat-checkbox>
+                    </div>
+                    <div class="ml-2 text-sm">
+                        <label class="font-medium text-fg-default">Acepto los <a href="#"
+                                class="text-accent-default hover:underline">términos y condiciones</a></label>
+                    </div>
+                </div>
+
+                <button type="submit" [disabled]="form.invalid || loading"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-default hover:bg-primary-hover focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                    <span *ngIf="loading"
+                        class="mr-2 animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                    {{ loading ? 'Creando cuenta...' : 'Registrarse' }}
+                </button>
+
+            </form>
+        </div>
+
+        <div class="mt-6">
+            <p class="text-center text-sm text-fg-muted">
+                ¿Ya tienes cuenta?
+                <a routerLink="/login"
+                    class="font-medium text-accent-default hover:text-accent-hover cursor-pointer hover:underline">
+                    Inicia sesión
+                </a>
+            </p>
         </div>
     </div>
-</section>
+</div>
