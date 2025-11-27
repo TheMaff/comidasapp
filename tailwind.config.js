@@ -22,16 +22,16 @@ module.exports = {
         },
         // COLOR PRINCIPAL (VERDE)
         primary: {
-          DEFAULT: '#2da44e', // GitHub Green (Success) - Tu color de marca
+          default: '#2da44e', // GitHub Green (Success) - Tu color de marca
           hover: '#2c974b',
           bg: '#dafbe1', // Fondo verde muy suave
         },
         // Acentos secundarios
         accent: {
-          DEFAULT: '#0969da', // Azul solo para enlaces de texto, no para bloques grandes
+          default: '#0969da', // Azul solo para enlaces de texto, no para bloques grandes
         },
         danger: {
-          DEFAULT: '#cf222e',
+          default: '#cf222e',
           bg: '#ffebe9'
         }
       },
