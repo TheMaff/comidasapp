@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 //Modulos
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
-import { AuthModule } from './auth/auth.module';
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -39,8 +38,7 @@ import { SimpleHeuristicPlannerService } from './application/services/simple-heu
     LayoutModule,
     SharedModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    AuthModule,
+    MaterialModule
   ],
   bootstrap: [AppComponent],
   providers: [
