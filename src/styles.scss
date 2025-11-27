@@ -24,6 +24,10 @@ body {
   overflow: visible;
 }
 
+.mat-typography h3{
+  margin-bottom: 0 !important;
+}
+
 .snackbar-error {
   background-color: #c62828; // rojo Material 800
   color: #fff;
@@ -35,4 +39,50 @@ body {
 .snackbar-info {
   background-color: #1565c0; // azul Material 800
   color: #fff;
+}
+
+// src/styles.scss
+
+// Clase auxiliar para hacer inputs de Material más compactos (Estilo GitHub)
+.compact-form-field {
+  .mat-mdc-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    // Oculta el espacio de error si no hay error, o lo hace más pequeño
+    display: none;
+  }
+
+  &.ng-invalid.ng-touched .mat-mdc-form-field-subscript-wrapper {
+    display: block; // Mostrar solo si hay error
+    position: static;
+    margin-top: 4px;
+  }
+}
+
+// Utilidad para inputs sin subscript (espacio inferior) en tablas
+.no-subscript .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.icon-xs {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  line-height: 16px !important;
+}
+
+.icon-sm {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+}
+
+.icon-md {
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 24px !important;
 }

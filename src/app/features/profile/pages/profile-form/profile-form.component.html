@@ -20,7 +20,7 @@
 
     <form *ngIf="!loading()" [formGroup]="form">
 
-        <div class="border border-border-default rounded-md bg-white shadow-sm mb-6">
+        <div class="border border-border-default rounded-md overflow-hidden bg-white shadow-sm mb-6">
             <div class="p-4 border-b border-border-default bg-canvas-subtle">
                 <h3 class="text-sm font-semibold text-fg-default m-0">Información General</h3>
             </div>
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="border border-border-default rounded-md bg-white shadow-sm">
+        <div class="border border-border-default rounded-md overflow-hidden bg-white shadow-sm">
             <div class="p-4 border-b border-border-default bg-canvas-subtle flex justify-between items-center">
                 <h3 class="text-sm font-semibold text-fg-default m-0">Integrantes ({{ members.controls.length }})</h3>
                 <button type="button" (click)="addMember()"
