@@ -18,7 +18,7 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
-      { path: 'profile', loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule) },
+      { path: 'profile', loadChildren: () => import('./features/profile/profile.routes') },
       { 
         path: 'dishes', 
         loadChildren: () => import('./features/dishes/dishes.routes')

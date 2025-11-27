@@ -1,94 +1,129 @@
-<mat-card *ngIf="!loading; else loadTpl">
-    <mat-card-header class="mb-4">
-        <mat-card-title>Perfil y grupo familiar</mat-card-title>
-        <mat-card-subtitle>Configura los integrantes, alergias y preferencias</mat-card-subtitle>
-    </mat-card-header>
-    
-    <mat-card-content>
-        <form [formGroup]="form" (ngSubmit)="save()" class="mt-2">
-            <div class="row g-3">
-                <div class="col-12 col-md-6">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Nombre visible</mat-label>
-                        <input matInput formControlName="displayName">
-                    </mat-form-field>
+<div class="max-w-5xl mx-auto pb-10">
+
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-2xl font-semibold text-fg-default">Perfil y Familia</h2>
+            <p class="text-sm text-fg-muted">Gestiona los integrantes y sus preferencias nutricionales.</p>
+        </div>
+        <button (click)="save()" [disabled]="form.invalid || saving()"
+            class="bg-primary-default hover:bg-primary-hover text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+            <mat-icon *ngIf="!saving()" class="icon-sm">save</mat-icon>
+            <span *ngIf="saving()"
+                class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full block"></span>
+            {{ saving() ? 'Guardando...' : 'Guardar Cambios' }}
+        </button>
+    </div>
+
+    <div *ngIf="loading()" class="py-10 text-center text-fg-muted">
+        Cargando perfil...
+    </div>
+
+    <form *ngIf="!loading()" [formGroup]="form">
+
+        <div class="border border-border-default rounded-md bg-white shadow-sm mb-6">
+            <div class="p-4 border-b border-border-default bg-canvas-subtle">
+                <h3 class="text-sm font-semibold text-fg-default m-0">Información General</h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-fg-default mb-1.5">Nombre de la Familia /
+                            Usuario</label>
+                        <mat-form-field appearance="outline" class="w-full compact-form-field">
+                            <input matInput formControlName="displayName" placeholder="Ej: Familia Pérez">
+                            <mat-error *ngIf="form.get('displayName')?.hasError('required')">Requerido</mat-error>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-    
-            <h4 class="mt-3">Integrantes</h4>
-    
-            <div formArrayName="members" class="row g-3">
+        </div>
 
-                <div class="col col-md-6" *ngFor="let m of members.controls; index as i">
-
-                    <mat-card appearance="outlined" [formGroupName]="i" class="pt-4 p-3">
-                        <div class="row g-2">
-                            <div class="col-12 col-md-6">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Nombre</mat-label>
-                                    <input matInput formControlName="name">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Fecha nacimiento</mat-label>
-                                    <input matInput type="date" formControlName="birthDate">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Altura (cm)</mat-label>
-                                    <input matInput type="number" formControlName="heightCm">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Peso (kg)</mat-label>
-                                    <input matInput type="number" formControlName="weightKg">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-12">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Alergias (separadas por coma)</mat-label>
-                                    <input matInput formControlName="allergies">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-12">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Intolerancias (separadas por coma)</mat-label>
-                                    <input matInput formControlName="intolerances">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-12">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Preferencias (separadas por coma)</mat-label>
-                                    <input matInput formControlName="preferences">
-                                </mat-form-field>
-                            </div>
-                        </div>
-    
-                        <div class="mt-2 d-flex justify-content-end">
-                            <button mat-stroked-button color="warn" type="button" (click)="removeMember(i)" aria-label="Quitar integrante"> <mat-icon>delete</mat-icon> Borrar </button>
-                        </div>
-                    </mat-card>
-                </div>
-            </div>
-    
-            <div class="mt-3">
-                <button mat-stroked-button type="button" (click)="addMember()">
-                    <mat-icon>person_add</mat-icon>&nbsp;Agregar integrante
+        <div class="border border-border-default rounded-md bg-white shadow-sm">
+            <div class="p-4 border-b border-border-default bg-canvas-subtle flex justify-between items-center">
+                <h3 class="text-sm font-semibold text-fg-default m-0">Integrantes ({{ members.controls.length }})</h3>
+                <button type="button" (click)="addMember()"
+                    class="text-accent-default hover:underline text-sm font-medium flex items-center gap-1">
+                    <mat-icon class="icon-sm">add</mat-icon> Agregar integrante
                 </button>
             </div>
 
-            <hr>
-    
-            <!-- Barra de acciones fija en mobile -->
-            <div class="actions-bar text-end">
-                <button mat-raised-button color="primary" type="submit">Guardar cambios</button>
-                <a mat-button class="ms-2" routerLink="/dashboard">Cancelar</a>
-            </div>
-        </form>
-    </mat-card-content>
-</mat-card>
+            <div class="divide-y divide-border-muted" formArrayName="members">
 
-<ng-template #loadTpl> Cargando perfil… </ng-template>
+                <div *ngFor="let m of members.controls; index as i" [formGroupName]="i"
+                    class="p-6 hover:bg-canvas-inset transition-colors group relative">
+
+                    <button type="button" (click)="removeMember(i)"
+                        class="absolute top-4 right-4 text-fg-muted hover:text-danger-default opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Eliminar integrante">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-fg-default mb-1.5">Nombre</label>
+                            <mat-form-field appearance="outline" class="w-full compact-form-field">
+                                <input matInput formControlName="name" placeholder="Nombre">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-fg-default mb-1.5">Fecha Nacimiento</label>
+                            <mat-form-field appearance="outline" class="w-full compact-form-field">
+                                <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-fg-default mb-1.5">Altura (cm)</label>
+                            <mat-form-field appearance="outline" class="w-full compact-form-field">
+                                <input matInput type="number" formControlName="heightCm">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-fg-default mb-1.5">Peso (kg)</label>
+                            <mat-form-field appearance="outline" class="w-full compact-form-field">
+                                <input matInput type="number" formControlName="weightKg">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                            <div>
+                                <label class="block text-xs font-semibold text-fg-muted mb-1.5">Alergias</label>
+                                <mat-form-field appearance="outline" class="w-full compact-form-field">
+                                    <input matInput formControlName="allergies" placeholder="Ej: Maní, Huevo">
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-fg-muted mb-1.5">Intolerancias</label>
+                                <mat-form-field appearance="outline" class="w-full compact-form-field">
+                                    <input matInput formControlName="intolerances" placeholder="Ej: Lactosa">
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-fg-muted mb-1.5">Gustos /
+                                    Preferencias</label>
+                                <mat-form-field appearance="outline" class="w-full compact-form-field">
+                                    <input matInput formControlName="preferences" placeholder="Ej: No picante">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="p-4 bg-canvas-subtle border-t border-border-default text-center text-xs text-fg-muted">
+                Asegúrate de guardar los cambios después de agregar o quitar integrantes.
+            </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-border-default flex justify-end">
+            <button mat-stroked-button color="warn" (click)="logout()">
+                <mat-icon>logout</mat-icon> Cerrar Sesión
+            </button>
+        </div>
+
+    </form>
+</div>

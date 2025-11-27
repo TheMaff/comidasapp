@@ -4,7 +4,7 @@
         <p class="text-sm text-fg-muted">Gestiona tu catálogo de platos.</p>
     </div>
     <a routerLink="new"
-        class="bg-primary-DEFAULT hover:bg-primary-hover text-white px-4 py-2 rounded-md text-sm font-medium transition-colors no-underline flex items-center gap-2 shadow-sm">
+        class="bg-primary-default hover:bg-primary-hover text-white px-4 py-2 rounded-md text-sm font-medium transition-colors no-underline flex items-center gap-2 shadow-sm">
         <mat-icon class="icon-sm">add</mat-icon> Nueva receta
     </a>
 </div>
@@ -42,7 +42,7 @@
             </th>
             <td mat-cell *matCellDef="let r" class="!border-b !border-border-muted px-4 py-3 text-right">
                 <a [routerLink]="['/dishes', r.id]"
-                    class="text-accent-DEFAULT hover:underline text-sm font-medium cursor-pointer">
+                    class="text-accent-default hover:underline text-sm font-medium cursor-pointer">
                     Editar
                 </a>
             </td>
