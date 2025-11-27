@@ -7,8 +7,10 @@ import { switchMap, map, tap, filter, catchError } from 'rxjs/operators';
 
 // Capas de Dominio y Aplicación
 import { GetMealPlanByRange } from 'src/app/application/services/get-meal-plan-by-range.usecase';
-import { DISH_REPOSITORY } from 'src/app/core/tokens';
+import { DISH_REPOSITORY, MEAL_PLAN_REPOSITORY } from 'src/app/core/tokens';
 import { DishRepository } from 'src/app/domain/repositories/dish.repository';
+import { MealPlanRepository } from 'src/app/domain/repositories/meal-plan.repository';
+
 import { AuthService } from 'src/app/services/auth.service';
 import { Dish } from 'src/app/domain/entities/dish';
 import { MealPlan } from 'src/app/domain/entities/meal-plan';
@@ -40,6 +42,7 @@ export class PlannerCalendarComponent {
   private auth = inject(AuthService);
   private getPlanUC = inject(GetMealPlanByRange);
   private dishesRepo = inject(DISH_REPOSITORY) as DishRepository;
+  private mealPlanRepo = inject(MEAL_PLAN_REPOSITORY) as MealPlanRepository;
 
   // Estado UI
   loading = signal<boolean>(true);
@@ -58,11 +61,24 @@ export class PlannerCalendarComponent {
     switchMap(async ([user, params]) => {
       const uid = user!.uid;
 
-      // 1. Verificar si hay parámetros. Si no, redirigir a Settings (Flujo Nuevo Usuario)
+      // 1. Verificar si hay parámetros
       if (!params['start'] || !params['days']) {
-        // 🚨 REDIRECCIÓN SI NO HAY PLAN DEFINIDO
-        this.router.navigate(['/planner/settings']);
-        return null; // Cortamos el flujo aquí
+        
+        // 🚨 MEJORA: Buscar plan activo antes de mandarlo a crear uno nuevo
+        const activePlan = await this.mealPlanRepo.findActivePlan(uid);
+        
+        if (activePlan) {
+            // Si existe, redirigimos al calendario CON los parámetros de ese plan
+            const daysDiff = (new Date(activePlan.endDate).getTime() - new Date(activePlan.startDate).getTime()) / (1000 * 3600 * 24) + 1;
+            this.router.navigate([], { 
+                queryParams: { start: activePlan.startDate, days: Math.round(daysDiff) } 
+            });
+            return null;
+        }
+
+        // Si no existe, entonces sí a settings
+        this.router.navigate(['/planner/settings']); 
+        return null;
       }
 
       const startStr = params['start'];
@@ -145,12 +161,47 @@ export class PlannerCalendarComponent {
     return dateISO >= startISO && dateISO <= endISO;
   }
 
-  openDay(dateISO: string, data: any) {
-    // Solo permitir click si está dentro del plan
+  async openDay(dateISO: string, data: any) {
+    // Caso 1: Está dentro del plan -> Navegar al detalle (Ya funciona)
     if (this.isInPlan(dateISO, data.planStartStr, data.planEndStr)) {
       this.router.navigate(['/planner/day', dateISO], {
         queryParams: data.currentParams
       });
+      return;
+    }
+
+    // Caso 2: Está FUERA del plan (Futuro) -> EXTENDER
+    if (dateISO > data.planEndStr) {
+      if (confirm(`¿Quieres extender tu plan hasta el ${dateISO}?`)) {
+        this.loading.set(true);
+        try {
+          // 1. Actualizar entidad local
+          const plan = data.plan as MealPlan;
+          // Asumimos que MealPlan es mutable o tiene método para actualizar fecha fin
+          // Si es inmutable, crea una copia o usa un método 'extendTo(date)'
+
+          // 2. Guardar en BD (Solo actualizamos endDate)
+          // Necesitamos un método en MealPlan para esto o hacerlo manual
+          // await this.savePlanUC.extendPlan(plan, dateISO); 
+
+          // Simplificación: Recargar con nuevos params
+          // Calcular nuevos días
+          const start = new Date(data.planStartStr);
+          const newEnd = new Date(dateISO);
+          const newDays = Math.ceil((newEnd.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+
+          // Actualizar URL (esto disparará el recálculo y guardado automático si lo configuramos)
+          this.router.navigate([], {
+            queryParams: { start: data.planStartStr, days: newDays }
+          });
+
+          // IMPORTANTE: Tu 'saveMealPlan' actual guarda TODO el objeto. 
+          // Al recargar la página con más días, el 'proposePlan' generará los días faltantes
+          // y tu lógica de 'guardar si no existe' debe adaptarse para 'actualizar si cambió'.
+        } finally {
+          this.loading.set(false);
+        }
+      }
     }
   }
 }
