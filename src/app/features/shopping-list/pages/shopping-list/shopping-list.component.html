@@ -1,56 +1,92 @@
-<div class="container py-4">
+<div class="pb-10">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Lista de Compras</h2>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+            <h2 class="text-2xl font-semibold text-fg-default">Lista de Compras</h2>
+            <p class="text-sm text-fg-muted">Ingredientes necesarios para tu plan semanal.</p>
+        </div>
 
-        <div class="d-flex gap-2">
-            <button mat-icon-button (click)="changeWeek(-1)">
-                <mat-icon>chevron_left</mat-icon>
+        <div class="flex items-center bg-white border border-border-default rounded-md shadow-sm">
+            <button mat-icon-button (click)="changeWeek(-1)" matTooltip="Semana anterior">
+                <mat-icon class="text-fg-muted">chevron_left</mat-icon>
             </button>
-            <span class="align-self-center text-muted small">Semana del {{ viewData()?.start | date:'dd/MM' }}</span>
-            <button mat-icon-button (click)="changeWeek(1)">
-                <mat-icon>chevron_right</mat-icon>
+            <div class="px-4 py-2 border-x border-border-default min-w-[140px] text-center">
+                <span class="text-xs text-fg-muted uppercase font-semibold block">Semana del</span>
+                <span class="text-sm font-medium text-fg-default">{{ viewData()?.start | date:'dd/MM' }}</span>
+            </div>
+            <button mat-icon-button (click)="changeWeek(1)" matTooltip="Semana siguiente">
+                <mat-icon class="text-fg-muted">chevron_right</mat-icon>
             </button>
         </div>
     </div>
 
-    <div *ngIf="loading()" class="text-center py-5">
-        <p class="text-muted">Calculando ingredientes...</p>
+    <div *ngIf="loading()" class="py-12 flex justify-center">
+        <div class="flex flex-col items-center gap-3 text-fg-muted">
+            <span
+                class="animate-spin h-6 w-6 border-2 border-primary-DEFAULT border-t-transparent rounded-full block"></span>
+            <span class="text-sm">Calculando ingredientes...</span>
+        </div>
     </div>
 
-    <div *ngIf="!loading() && viewData()?.list?.items?.length === 0" class="text-center py-5 bg-light rounded">
-        <mat-icon class="display-4 text-muted">remove_shopping_cart</mat-icon>
-        <p class="mt-2">No hay comidas planificadas para esta semana.</p>
-        <a mat-button color="primary" routerLink="/planner">Ir al Planificador</a>
+    <div *ngIf="!loading() && viewData()?.list?.items?.length === 0"
+        class="border border-dashed border-border-default rounded-lg p-10 text-center bg-canvas-subtle">
+        <div
+            class="w-12 h-12 bg-white border border-border-default rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+            <mat-icon class="text-fg-muted">remove_shopping_cart</mat-icon>
+        </div>
+        <h3 class="text-base font-semibold text-fg-default">Tu lista está vacía</h3>
+        <p class="text-sm text-fg-muted mb-6">No hay comidas planificadas para esta semana.</p>
+        <a routerLink="/planner"
+            class="bg-primary-DEFAULT hover:bg-primary-hover text-white px-4 py-2 rounded-md text-sm font-medium transition-all shadow-sm no-underline inline-flex items-center gap-2">
+            <mat-icon class="icon-sm">calendar_today</mat-icon> Ir al Planificador
+        </a>
     </div>
 
-    <mat-card *ngIf="!loading() && viewData()?.list as shoppingList" class="mb-4">
-        <mat-card-header class="d-flex justify-content-between align-items-center py-2">
-            <mat-card-title>
-                Ingredientes ({{ shoppingList.items.length }})
-            </mat-card-title>
-            <button mat-stroked-button color="primary" (click)="copyToClipboard(shoppingList)">
-                <mat-icon>content_copy</mat-icon> Copiar texto
+    <div *ngIf="!loading() && viewData()?.list as shoppingList"
+        class="border border-border-default rounded-md bg-white shadow-sm overflow-hidden">
+
+        <div class="bg-canvas-subtle px-4 py-3 border-b border-border-default flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-sm font-semibold text-fg-default">Ingredientes</span>
+                <span
+                    class="bg-white border border-border-default px-2 py-0.5 rounded-full text-xs font-medium text-fg-muted">
+                    {{ shoppingList.items.length }}
+                </span>
+            </div>
+
+            <button (click)="copyToClipboard(shoppingList)"
+                class="text-xs font-medium text-fg-muted hover:text-accent-DEFAULT flex items-center gap-1 transition-colors">
+                <mat-icon class="icon-xs">content_copy</mat-icon> Copiar texto
             </button>
-        </mat-card-header>
+        </div>
 
-        <mat-divider></mat-divider>
-
-        <mat-list>
-            <mat-list-item *ngFor="let item of shoppingList.items" class="h-auto py-2">
-                <div class="d-flex align-items-center w-100">
-                    <mat-checkbox color="primary" [(ngModel)]="item.checked" class="me-3">
-                    </mat-checkbox>
-
-                    <div [class.strikethrough]="item.checked" class="flex-grow-1">
-                        <span class="fw-bold">{{ item.name | titlecase }}</span>
-                    </div>
-
-                    <div [class.strikethrough]="item.checked" class="text-muted">
-                        {{ item.amount }} {{ item.unit }}
-                    </div>
+        <div class="divide-y divide-border-muted">
+            <div *ngFor="let item of shoppingList.items"
+                class="group flex items-start p-4 hover:bg-canvas-inset transition-colors cursor-pointer"
+                (click)="item.checked = !item.checked">
+                <div class="pt-0.5 mr-3" (click)="$event.stopPropagation()">
+                    <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
                 </div>
-            </mat-list-item>
-        </mat-list>
-    </mat-card>
+
+                <div class="flex-grow">
+                    <p class="text-sm font-medium text-fg-default transition-all" [class.line-through]="item.checked"
+                        [class.text-fg-muted]="item.checked">
+                        {{ item.name | titlecase }}
+                    </p>
+                    <p class="text-xs text-fg-muted" [class.line-through]="item.checked">
+                        {{ item.amount }} {{ item.unit }}
+                    </p>
+                </div>
+
+                <div *ngIf="item.checked" class="text-primary-DEFAULT animate-in fade-in zoom-in duration-200">
+                    <mat-icon class="icon-sm">check</mat-icon>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-canvas-subtle px-4 py-2 border-t border-border-default text-xs text-fg-muted text-center">
+            Tip: Puedes copiar la lista y enviarla por WhatsApp.
+        </div>
+    </div>
+
 </div>

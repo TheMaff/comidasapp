@@ -17,7 +17,7 @@ const routes: Routes = [
     component: AppShellComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
+      { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.routes') },
       { path: 'profile', loadChildren: () => import('./features/profile/profile.routes') },
       { 
         path: 'dishes', 

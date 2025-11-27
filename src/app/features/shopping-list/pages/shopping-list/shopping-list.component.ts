@@ -18,6 +18,7 @@ import { GenerateShoppingList } from 'src/app/application/services/generate-shop
 import { AuthService } from 'src/app/services/auth.service';
 import { ShoppingList } from 'src/app/domain/entities/shopping-list';
 import { FormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-shopping-list',
@@ -31,7 +32,8 @@ import { FormsModule } from '@angular/forms';
         MatIconModule,
         MatButtonModule,
         MatCheckboxModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatTooltipModule
     ],
     templateUrl: './shopping-list.component.html',
     styles: [`
