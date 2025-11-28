@@ -81,6 +81,16 @@ export class MealPlan {
         return dateISO >= this.props.startDate && dateISO <= this.props.endDate;
     }
 
+    /**
+     * Extiende la fecha de fin del plan si la nueva fecha es posterior.
+     */
+    extendTo(dateISO: string): void {
+        if (dateISO > this.props.endDate) {
+            this.props.endDate = dateISO;
+            this.touch();
+        }
+    }
+
     // Actualiza el timestamp de modificación
     private touch(): void {
         this.props.updatedAt = new Date().toISOString();
