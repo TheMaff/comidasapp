@@ -20,19 +20,33 @@ export class PlannerDispatcherComponent implements OnInit {
   async ngOnInit() {
     try {
       const user = await firstValueFrom(this.auth.user$);
-      if (!user) return; // AuthGuard lo manejará
+      if (!user) return;
 
+      // Buscamos el último plan activo
+      const activePlan = await this.planRepo.findActivePlan(user.uid);
       const today = new Date().toISOString().slice(0, 10);
-      
-      // Buscamos si existe algún plan que incluya HOY o empiece en el FUTURO cercano
-      // (Esta lógica depende de tu repositorio, asumamos que buscamos el plan "activo")
-      // Nota: Quizás necesites un método nuevo en el repo `findActivePlan(uid, date)`
-      // Por ahora, intentemos una lógica simple: buscar un plan que empiece hoy o en los ultimos 7 dias.
-      
-      // MVP: Si no hay parámetros en la URL, redirigir a 'settings' (comportamiento actual)
-      // MEJORA: Implementar búsqueda de plan activo en BD.
-      
-      this.router.navigate(['/planner/settings']); 
+
+      if (activePlan) {
+        // REGLA 1: Vencimiento
+        // Si el plan existe, pero su fecha fin es menor a hoy (ayer fue el último día)
+        // Entonces YA NO es un plan activo para editar. Es historial.
+        if (activePlan.endDate < today) {
+          console.log('El último plan ha vencido. Redirigiendo a crear uno nuevo.');
+          this.router.navigate(['/planner/settings']);
+          return;
+        }
+
+        // Si el plan es válido (termina hoy o en el futuro), vamos al calendario
+        // Calculamos los días para la URL
+        const daysDiff = Math.ceil((new Date(activePlan.endDate).getTime() - new Date(activePlan.startDate).getTime()) / (1000 * 3600 * 24)) + 1;
+
+        this.router.navigate(['/planner/calendar'], {
+          queryParams: { start: activePlan.startDate, days: daysDiff }
+        });
+      } else {
+        // No hay plan, vamos a crear uno
+        this.router.navigate(['/planner/settings']);
+      }
 
     } catch (e) {
       this.router.navigate(['/planner/settings']);
