@@ -96,20 +96,46 @@
                         </ng-container>
 
                         <ng-container *ngIf="!date">
-                            <div class="h-full bg-canvas-subtle"></div>
+                            <div class="h-full bg-canvas-subtle border-b border-r border-transparent"></div>
                         </ng-container>
 
                     </div>
                 </div>
             </div>
         </div>
-        <div class="mt-8 text-center pb-10">
+
+        <!--  -->
+
+        <div class="mt-8 text-center pb-10" *ngIf="viewData() as data">
+    
+            <p class="text-fg-muted text-sm mb-4">
+                Planificado hasta el <strong>{{ data.planEndStr | date:'longDate' }}</strong>
+            </p>
+            
+            <div class="flex justify-center gap-4">
+                
+                <button *ngIf="data.canLoadNextMonth" 
+                        mat-stroked-button 
+                        (click)="loadNextMonth()">
+                    <mat-icon>calendar_view_month</mat-icon> Ver siguiente mes
+                </button>
+
+                <button *ngIf="isPlanFinished(data.planEndStr)" 
+                        mat-flat-button color="primary" 
+                        routerLink="/planner/settings">
+                    <mat-icon>restart_alt</mat-icon> Nueva Planificación
+                </button>
+            </div>
+
+        </div>
+
+        <!-- <div class="mt-8 text-center pb-10">
             <p class="text-fg-muted text-sm mb-3">Has planificado hasta el {{ data.planEndStr | date:'longDate' }}</p>
 
             <button mat-stroked-button color="primary" routerLink="/planner/settings">
                 <mat-icon>calendar_today</mat-icon> Comenzar nueva planificación desde cero
             </button>
-        </div>
+        </div> -->
 
     </ng-container>
 </div>
